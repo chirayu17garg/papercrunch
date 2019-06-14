@@ -1,7 +1,9 @@
 package com.example.deerg.papercrunch;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.DataSetObserver;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -38,13 +40,15 @@ public class Main2Activity extends AppCompatActivity {
     private List<String> listDataHeader;
     private HashMap<String,List<String>> listHash;
     private ProgressBar progressBar;
+    private Object LevelDbHelper;
+    SQLiteDatabase datavase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         setuptoolbar();
-        Toast.makeText(getApplicationContext(),"Child Clicked",Toast.LENGTH_SHORT);
+
         listView = (ExpandableListView)findViewById(R.id.lvExp);
         initData();
         listAdapter = new com.example.deerg.papercrunch.aExpandableListAdapter(this,listDataHeader,listHash);
@@ -119,15 +123,32 @@ public class Main2Activity extends AppCompatActivity {
         listDataHeader.add("Levlel");
         listDataHeader.add("asd");
 
+        listDataHeader.add("das");
+
+        //com.example.deerg.papercrunch.LevelDbHelper levelDbHelper = new LevelDbHelper(Main2Activity.this);
+         //levelDbHelper.addLevel(1,"Expand",null,datavase);
+        //Cursor cuur = levelDbHelper.readLevel(datavase);
+        //cuur.moveToFirst();
+        //while(!cuur.isAfterLast()){
+         //   String Sublevel = cuur.getString(1);
+         //   String sub2 = cuur.getString(2);
+          //  cuur.moveToNext();
+        //}
+
+        //String[] from ={"sublevel","sublevel2"};
         List<String> lleev = new ArrayList<>();
-        lleev.add("Expanded");
+        lleev.add("Exp");
 
         List<String> lev2 = new ArrayList<>();
-        lev2.add("sub");
         lev2.add("suub");
+        List<String> lev3 = new ArrayList<>();
 
         listHash.put(listDataHeader.get(0),lleev);
         listHash.put(listDataHeader.get(1),lev2);
-
+        listHash.put(listDataHeader.get(2),lev3);
     }
+    private void readLevel() {
+        //LevelDbHelper levelDbHelper = new LevelDbHelper(getActivity());HAHAHAHAHAHAHAHAHAHHA :3
+    }
+
 }

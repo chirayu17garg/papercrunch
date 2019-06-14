@@ -79,13 +79,13 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="485dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="4dp"
         android:background="@android:color/transparent"
         android:backgroundTint="@android:color/background_light"
         android:text="Skip This step"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText

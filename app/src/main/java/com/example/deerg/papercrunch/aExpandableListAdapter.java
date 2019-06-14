@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -67,6 +69,17 @@ public class aExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lbListHead = (TextView)convertView.findViewById(R.id.lbListHead);
         //lbListHead.setTypeface(null, Typeface.BOLD);
         lbListHead.setText(headTitle);
+        ImageView lvlis = (ImageView) convertView.findViewById(R.id.lvListImg);
+        ProgressBar pbar = (ProgressBar)convertView.findViewById(R.id.progBar);
+        switch (groupPosition){
+            case 0 : lvlis.setImageResource(R.drawable.avatar);pbar.setProgress(66);
+            break;
+            case 1 : lvlis.setImageResource(R.drawable.mail);break;
+            default: lvlis.setImageResource(R.drawable.logo);
+        }
+
+
+
         return convertView;
     }
 
