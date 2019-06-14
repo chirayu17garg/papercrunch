@@ -38,7 +38,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public int getChildrenCount(int groupPosition) {
 
         int i = 0;
-        if (groupPosition == 0 || groupPosition==1) {
+        if (groupPosition == 0 || groupPosition == 1) {
             i = this.listchild.get(this.lisheader.get(groupPosition)).size();
         }
         return i;

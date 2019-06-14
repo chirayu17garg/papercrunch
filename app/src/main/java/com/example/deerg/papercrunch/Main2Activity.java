@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +38,7 @@ public class Main2Activity extends AppCompatActivity {
     private ExpandableListView listView;
     private aExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
-    private HashMap<String,List<String>> listHash;
+    private HashMap<String, List<String>> listHash;
     private ProgressBar progressBar;
 
     @Override
@@ -44,15 +46,15 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         setuptoolbar();
-        Toast.makeText(getApplicationContext(),"Child Clicked",Toast.LENGTH_SHORT);
-        listView = (ExpandableListView)findViewById(R.id.lvExp);
+        Toast.makeText(getApplicationContext(), "Child Clicked", Toast.LENGTH_SHORT);
+        listView = (ExpandableListView) findViewById(R.id.lvExp);
         initData();
-        listAdapter = new com.example.deerg.papercrunch.aExpandableListAdapter(this,listDataHeader,listHash);
+        listAdapter = new com.example.deerg.papercrunch.aExpandableListAdapter(this, listDataHeader, listHash);
         listView.setAdapter(listAdapter);
         listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Intent intent=new Intent(getApplicationContext(),ConceptScreen.class);
+                Intent intent = new Intent(getApplicationContext(), ConceptScreen.class);
                 startActivity(intent);
                 return true;
             }
@@ -112,7 +114,8 @@ public class Main2Activity extends AppCompatActivity {
         listchild.put(listheader.get(0), head1);
         listchild.put(listheader.get(1), head2);
     }
-    private void initData(){
+
+    private void initData() {
         listDataHeader = new ArrayList<>();
         listHash = new HashMap<>();
 
@@ -126,8 +129,8 @@ public class Main2Activity extends AppCompatActivity {
         lev2.add("sub");
         lev2.add("suub");
 
-        listHash.put(listDataHeader.get(0),lleev);
-        listHash.put(listDataHeader.get(1),lev2);
+        listHash.put(listDataHeader.get(0), lleev);
+        listHash.put(listDataHeader.get(1), lev2);
 
     }
 }

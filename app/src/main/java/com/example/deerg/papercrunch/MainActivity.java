@@ -10,20 +10,19 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private ProgressBar pg;
-    Handler mHandler=new Handler();
-    private int mprogressbar=0;
+    Handler mHandler = new Handler();
+    private int mprogressbar = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        pg=(ProgressBar)findViewById(R.id.progressBar);
-        final Intent i = new Intent(this,login.class);
+        pg = (ProgressBar) findViewById(R.id.progressBar);
+        final Intent i = new Intent(this, login.class);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while(mprogressbar<100)
-                {
+                while (mprogressbar < 100) {
                     mprogressbar++;
                     android.os.SystemClock.sleep(30);
                     mHandler.post(new Runnable() {
