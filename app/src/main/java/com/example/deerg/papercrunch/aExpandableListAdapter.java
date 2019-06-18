@@ -72,9 +72,17 @@ public class aExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView lvlis = (ImageView) convertView.findViewById(R.id.lvListImg);
         ProgressBar pbar = (ProgressBar)convertView.findViewById(R.id.progBar);
         switch (groupPosition){
-            case 0 : lvlis.setImageResource(R.drawable.avatar);pbar.setProgress(66);
+            case 0 : lvlis.setImageResource(R.drawable.ic_content_paste_black_24dp);pbar.setProgress(66);
             break;
-            case 1 : lvlis.setImageResource(R.drawable.mail);break;
+            case 1 : lvlis.setImageResource(R.drawable.ic_date_range_black_24dp);break;
+            case 2 : lvlis.setImageResource(R.drawable.ic_developer_mode_black_24dp);break;
+            case 3 : lvlis.setImageResource(R.drawable.ic_input_black_24dp);break;
+            case 4 : lvlis.setImageResource(R.drawable.logic);break;
+            case 5 : lvlis.setImageResource(R.drawable.ic_swap_horiz_black_24dp);break;
+            case 6 : lvlis.setImageResource(R.drawable.ic_loop_black_24dp);break;
+            case 7 : lvlis.setImageResource(R.drawable.ic_functions_black_24dp);break;
+            case 8 : lvlis.setImageResource(R.drawable.ic_view_array_black_24dp);break;
+
             default: lvlis.setImageResource(R.drawable.logo);
         }
 

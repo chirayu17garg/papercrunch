@@ -1,6 +1,7 @@
 package com.example.deerg.papercrunch;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar pg;
     Handler mHandler=new Handler();
     private int mprogressbar=0;
-
+    SQLiteDatabase datavase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }).start();
-
     }
 
 }

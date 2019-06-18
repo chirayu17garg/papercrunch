@@ -1,6 +1,6 @@
 package com.example.deerg.papercrunch;
 
-import android.content.Intent;
+
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
@@ -11,16 +11,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ConceptScreen extends AppCompatActivity {
+public class QuestionScreen extends AppCompatActivity {
 
+    private ViewPager vp1;
+    private QuetionFragmentAdapter adapter1;
     android.support.v7.widget.Toolbar custom_toolbar;
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -29,29 +29,16 @@ public class ConceptScreen extends AppCompatActivity {
     android.widget.ExpandableListAdapter mExpandableListAdapter;
     List<String> listheader;
     HashMap<String, List<String>> listchild;
-    private ViewPager vp;
-    private SliderFragmentAdapter adapter;
-    Button quiztime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_concept_screen);
+        setContentView(R.layout.activity_question_screen);
         setuptoolbar();
 
-        vp=findViewById(R.id.vp_concept);
-        adapter=new SliderFragmentAdapter(getSupportFragmentManager());
-        vp.setAdapter(adapter);
-
-        quiztime=(Button)findViewById(R.id.btnQuiz);
-
-        quiztime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),QuestionScreen.class);
-                startActivity(i);
-            }
-        });
+        vp1=findViewById(R.id.vp_question);
+        adapter1=new QuetionFragmentAdapter(getSupportFragmentManager());
+        vp1.setAdapter(adapter1);
     }
     public void setuptoolbar() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -64,23 +51,10 @@ public class ConceptScreen extends AppCompatActivity {
         prepareData();
         mExpandableListAdapter = new com.example.deerg.papercrunch.ExpandableListAdapter(this, listheader, listchild, mExpandableListView);
         mExpandableListView.setAdapter(mExpandableListAdapter);
-        getSupportActionBar().setIcon(R.drawable.logo1);
-        getSupportActionBar().setTitle("");
         mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, custom_toolbar, R.string.app_name, R.string.app_name);
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
         mActionBarDrawerToggle.syncState();
         navigationView.setItemIconTintList(null);
-
-        mExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int previousGroup = -1;
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                if(groupPosition != previousGroup)
-                    mExpandableListView.collapseGroup(previousGroup);
-                previousGroup = groupPosition;
-            }
-        });
     }
 
     private void prepareData() {
@@ -89,11 +63,6 @@ public class ConceptScreen extends AppCompatActivity {
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
         listheader.add("View Next Level");
-        listheader.add("");
-        listheader.add("");
-        listheader.add("");
-        listheader.add("");
-        listheader.add("Settings");
         listheader.add("Rate us");
         listheader.add("About us");
 
@@ -124,3 +93,4 @@ public class ConceptScreen extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
