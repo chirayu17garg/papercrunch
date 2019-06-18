@@ -5,7 +5,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,12 +18,12 @@
             layout="@layout/custom_toolbar" />
 
         <ExpandableListView
-            android:layout_width="match_parent"
             android:id="@+id/lvExp"
-            android:groupIndicator="@null"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="0.5dp"
-            android:focusable="false"/>
+            android:focusable="false"
+            android:groupIndicator="@null" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -34,16 +35,18 @@
         android:theme="@style/NavigationTheme"
         app:headerLayout="@layout/nav_header">
 
-                <ExpandableListView
-                    android:id="@+id/navmenu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="225dp"
-                    android:choiceMode="singleChoice"
-                    android:divider="@color/submenu"
-                    android:dividerHeight="0dp"
-                    android:groupIndicator="@null"
-                    android:padding="10dp">
-                </ExpandableListView>
+        <ExpandableListView
+            android:id="@+id/navmenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="225dp"
+            android:choiceMode="singleChoice"
+            android:divider="@color/submenu"
+            android:dividerHeight="0dp"
+            android:groupIndicator="@null"
+            android:minHeight="400dp"
+            android:padding="10dp" />
+
     </android.support.design.widget.NavigationView>
+
 </android.support.v4.widget.DrawerLayout>

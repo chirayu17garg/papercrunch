@@ -6,10 +6,5 @@
         android:icon="@drawable/avatar"
         android:title=""
         app:showAsAction="always" />
-    <item
-        android:icon="@drawable/settings"
-        android:title=""
-        app:showAsAction="always">
 
-    </item>
 </menu>

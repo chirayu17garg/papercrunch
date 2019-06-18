@@ -45,6 +45,8 @@ public class ConceptScreen extends AppCompatActivity {
             custom_toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.custom_toolbar);
         }
         setSupportActionBar(custom_toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setIcon(R.drawable.logo);
         mExpandableListView = (ExpandableListView) findViewById(R.id.navmenu);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         prepareData();
