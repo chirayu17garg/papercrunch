@@ -17,10 +17,12 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION= 1;
 
     public static final String CREATE_TABLE="create table level (level_id integer primary key,level_name text ,progress int)";
-    public static final String CREATE_TABLE2="create table sublevel (level_id integer primary key,sublevel1_name text , sublevel2_name text , sublevel3_name text , sublevel4_name text)";
+    public static final String CREATE_TABLE3="create table sublevel1 (level_id integer primary key,sublevel1_name text , sublevel2_name text , sublevel3_name text , sublevel4_name text)";
+    public static final String CREATE_TABLE2="create table sublevel (sub_level_id integer primary key,sublevel_name text,concept1 text,concept2 text,concept3 text,level_id integer)";
 
     public static final String DROP_TABLE ="drop table if exists level ";
     public static final String DROP_TABLE2 ="drop table if exists sublevel ";
+    public static final String DROP_TABLE3 ="drop table if exists sublevel1 ";
 
     public LevelDbHelper(Context context)
     {
@@ -33,6 +35,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
         db.execSQL(CREATE_TABLE2);
+        db.execSQL(CREATE_TABLE3);
         Log.d("Databaase Op","Table created");
 
     }
@@ -41,6 +44,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DROP_TABLE);
         db.execSQL(DROP_TABLE2);
+        db.execSQL(DROP_TABLE3);
         onCreate(db);
     }
 
@@ -97,7 +101,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     public List readSubLevel1(SQLiteDatabase db, int id){
         List lev =new ArrayList();
         db= this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from sublevel ",null);
+        Cursor cursor = db.rawQuery("select * from sublevel1 ",null);
         cursor.moveToPosition(id-1);
         lev.add(cursor.getString(cursor.getColumnIndex("sublevel1_name")));
         lev.add(cursor.getString(cursor.getColumnIndex("sublevel2_name")));
@@ -137,9 +141,10 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     }
 
     public List<String> readSubLevel(SQLiteDatabase db,int id){
-        List lev =new ArrayList();
+        List<String> lev =new ArrayList<String>();
         db= this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from sublevel where level_id = "+ id,null);
+        String level=Integer.toString(id);
+        Cursor cursor = db.rawQuery("select * from sublevel where level_id = ?",new String[]{level});
         cursor.moveToFirst();
         while(cursor.isAfterLast()==false)
         {
@@ -149,29 +154,49 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         return lev;
     }
 
-    public String getconcept1(SQLiteDatabase db,int sub_level_id){
-        String concept;
+    public List<String> getconcept1(SQLiteDatabase db, int id){
+        List<String> lev =new ArrayList<String>();
         db= this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from sublevel where level_id = "+ sub_level_id,null);
-        concept=cursor.getString(cursor.getColumnIndex("concept1"));
-        return concept;
+        String level=Integer.toString(id);
+        Cursor cursor = db.rawQuery("select * from sublevel where level_id = ?",new String[]{level});
+        cursor.moveToFirst();
+        while(cursor.isAfterLast()==false)
+        {
+            lev.add(cursor.getString(cursor.getColumnIndex("concept1")));
+            cursor.moveToNext();
+        }
+        return lev;
     }
 
-    public String getconcept2(SQLiteDatabase db,int sub_level_id){
-        String concept;
+    public List<String> getconcept2(SQLiteDatabase db, int id){
+        List<String> lev =new ArrayList<String>();
         db= this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from sublevel where level_id = "+ sub_level_id,null);
-        concept=cursor.getString(cursor.getColumnIndex("concept2"));
-        return concept;
+        String level=Integer.toString(id);
+        Cursor cursor = db.rawQuery("select * from sublevel where level_id = ?",new String[]{level});
+        cursor.moveToFirst();
+        while(cursor.isAfterLast()==false)
+        {
+            lev.add(cursor.getString(cursor.getColumnIndex("concept2")));
+            cursor.moveToNext();
+        }
+        return lev;
     }
 
-    public String getconcept3(SQLiteDatabase db,int sub_level_id){
-        String concept;
+
+    public List<String> getconcept3(SQLiteDatabase db, int id){
+        List<String> lev =new ArrayList<String>();
         db= this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from sublevel where level_id = "+ sub_level_id,null);
-        concept=cursor.getString(cursor.getColumnIndex("concept3"));
-        return concept;
+        String level=Integer.toString(id);
+        Cursor cursor = db.rawQuery("select * from sublevel where level_id = ?",new String[]{level});
+        cursor.moveToFirst();
+        while(cursor.isAfterLast()==false)
+        {
+            lev.add(cursor.getString(cursor.getColumnIndex("concept3")));
+            cursor.moveToNext();
+        }
+        return lev;
     }
+
 
     public void putsubLevel(SQLiteDatabase db){
         db = this.getWritableDatabase();

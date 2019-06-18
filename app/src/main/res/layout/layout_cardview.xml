@@ -26,23 +26,23 @@
 
     <TextView
         android:id="@+id/textcard1"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="110dp"
         android:text="LEVEL"
         android:textColor="@android:color/black"
-        android:textSize="24dp"
+        android:textSize="20dp"
         android:typeface="serif" />
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
 
         android:layout_height="wrap_content"
         android:layout_marginTop="140dp"
         android:layout_marginLeft="10dp"
-        android:text="Introduction"
+        android:text="Introduction and OMG what not"
         android:textColor="@android:color/black"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:id="@+id/textlvl1"/>
     <TextView
         android:layout_width="wrap_content"

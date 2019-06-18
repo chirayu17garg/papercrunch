@@ -33,6 +33,9 @@ public class ConceptScreen extends AppCompatActivity {
     private SliderFragmentAdapter adapter;
     Button quiztime;
     MainActivity one;
+    public static String concept1;
+    public static String concept2;
+    public static String concept3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,15 +56,6 @@ public class ConceptScreen extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-        Intent getinfo = new Intent();
-        getinfo.getExtras().getString("subname");
-        com.example.deerg.papercrunch.LevelDbHelper levelDbHelper = new LevelDbHelper(this);
-        one.datavase = levelDbHelper.getWritableDatabase();
-        levelDbHelper.putsubLevel1(one.datavase);
-        List sub = new ArrayList();
-        sub = levelDbHelper.readSubLevel(one.datavase,1);
-
 
     }
     public void setuptoolbar() {

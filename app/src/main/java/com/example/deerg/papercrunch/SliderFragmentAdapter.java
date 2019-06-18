@@ -15,9 +15,14 @@ public class SliderFragmentAdapter extends FragmentPagerAdapter {
         ConceptFragment frag =new ConceptFragment();
         Bundle bundle=new Bundle();
         i=i+1;
-        bundle.putString("msg","Data "+i);
-        frag.setArguments(bundle);
+        if(i==1)
+            bundle.putString("msg",SubLevel.c1);
+        else if (i==2)
+            bundle.putString("msg",SubLevel.c2);
+        else if(i==3)
+            bundle.putString("msg",SubLevel.c3);
 
+        frag.setArguments(bundle);
         return frag;
     }
 
@@ -26,4 +31,3 @@ public class SliderFragmentAdapter extends FragmentPagerAdapter {
         return 3;
     }
 }
-
