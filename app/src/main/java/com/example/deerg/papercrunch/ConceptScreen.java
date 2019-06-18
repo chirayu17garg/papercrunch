@@ -32,6 +32,7 @@ public class ConceptScreen extends AppCompatActivity {
     private ViewPager vp;
     private SliderFragmentAdapter adapter;
     Button quiztime;
+    MainActivity one;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,16 @@ public class ConceptScreen extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        Intent getinfo = new Intent();
+        getinfo.getExtras().getString("subname");
+        com.example.deerg.papercrunch.LevelDbHelper levelDbHelper = new LevelDbHelper(this);
+        one.datavase = levelDbHelper.getWritableDatabase();
+        levelDbHelper.putsubLevel1(one.datavase);
+        List sub = new ArrayList();
+        sub = levelDbHelper.readSubLevel(one.datavase,1);
+
+
     }
     public void setuptoolbar() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
