@@ -44,6 +44,7 @@
             android:divider="@color/submenu"
             android:dividerHeight="0dp"
             android:groupIndicator="@null"
+            android:minHeight="400dp"
             android:padding="10dp" />
 
     </android.support.design.widget.NavigationView>

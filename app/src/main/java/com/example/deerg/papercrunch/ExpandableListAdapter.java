@@ -79,7 +79,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
-        if (groupPosition < 5) {
+        if (groupPosition < 10) {
             TextView lblListHeader = (TextView) convertView.findViewById(R.id.listheader);
             lblListHeader.setText(header);
         }
