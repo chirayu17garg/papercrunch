@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class Main2Activity extends AppCompatActivity {
     //SQLiteDatabase datavase;
     MainActivity one;
     List<CardData> card1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +134,6 @@ public class Main2Activity extends AppCompatActivity {
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
         listheader.add("View Next Level");
-        listheader.add("");
         listheader.add("");
         listheader.add("");
         listheader.add("");

@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ public class ConceptScreen extends AppCompatActivity {
     public static String concept1;
     public static String concept2;
     public static String concept3;
+    public static String so;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,13 @@ public class ConceptScreen extends AppCompatActivity {
         vp.setAdapter(adapter);
 
         quiztime=(Button)findViewById(R.id.btnQuiz);
+
+        Intent getinfo = getIntent();
+        concept1 = getinfo.getExtras().getString("con1");
+        concept2 = getinfo.getExtras().getString("con2");
+        concept3 = getinfo.getExtras().getString("con3");
+        so = getinfo.getExtras().getString("subname");
+        Log.d("Concept 1",so);
 
         quiztime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +103,6 @@ public class ConceptScreen extends AppCompatActivity {
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
         listheader.add("View Next Level");
-        listheader.add("");
         listheader.add("");
         listheader.add("");
         listheader.add("");

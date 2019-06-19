@@ -16,11 +16,11 @@ public class SliderFragmentAdapter extends FragmentPagerAdapter {
         Bundle bundle=new Bundle();
         i=i+1;
         if(i==1)
-            bundle.putString("msg",SubLevel.c1);
+            bundle.putString("msg",ConceptScreen.concept1);
         else if (i==2)
-            bundle.putString("msg",SubLevel.c2);
+            bundle.putString("msg",ConceptScreen.concept2);
         else if(i==3)
-            bundle.putString("msg",SubLevel.c3);
+            bundle.putString("msg",ConceptScreen.concept3);
 
         frag.setArguments(bundle);
         return frag;

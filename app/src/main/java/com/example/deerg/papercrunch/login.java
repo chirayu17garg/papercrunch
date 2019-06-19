@@ -14,7 +14,7 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        final Intent i=new Intent(getApplicationContext(),Main2Activity.class);
+        final Intent i=new Intent(getApplicationContext(),CodedBefore.class);
         skip=(Button)findViewById(R.id.button3);
         skip.setOnClickListener(new View.OnClickListener() {
             @Override
