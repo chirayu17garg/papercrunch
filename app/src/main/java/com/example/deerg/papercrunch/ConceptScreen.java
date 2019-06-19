@@ -1,6 +1,7 @@
 package com.example.deerg.papercrunch;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +40,21 @@ public class ConceptScreen extends AppCompatActivity {
     public static String concept1;
     public static String concept2;
     public static String concept3;
-    public static String so;
+    public static String subn;
+    public static String lvln;
+    public static String question[];
+    public static String option1[];
+    public static String option2[];
+    public static String option3[];
+
+    public static String subname;
+    public static String lvlname;
+    public static int sid;
+
+    public static int subid=15;
+    public static int cnt=0;
+    DataDbHelper dh=new DataDbHelper(this);
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +62,11 @@ public class ConceptScreen extends AppCompatActivity {
         setContentView(R.layout.activity_concept_screen);
         setuptoolbar();
 
-        vp=findViewById(R.id.vp_concept);
+        vp=findViewById(R.id.vp_question);
         adapter=new SliderFragmentAdapter(getSupportFragmentManager());
         vp.setAdapter(adapter);
+
+
 
         quiztime=(Button)findViewById(R.id.btnQuiz);
 
@@ -55,13 +74,41 @@ public class ConceptScreen extends AppCompatActivity {
         concept1 = getinfo.getExtras().getString("con1");
         concept2 = getinfo.getExtras().getString("con2");
         concept3 = getinfo.getExtras().getString("con3");
-        so = getinfo.getExtras().getString("subname");
-        Log.d("Concept 1",so);
+        subn = getinfo.getExtras().getString("subname");
+        lvln = getinfo.getExtras().getString("lul");
+        sid=getinfo.getExtras().getInt("lulu");
+
+        Toast.makeText(this, "test "+sid, Toast.LENGTH_SHORT).show();
+        subname = subn;
+        lvlname = lvln;
+        //subid=sid;
+        dh.insertInValues(db);
+        cnt=dh.readCount(subid,db);
+
+
+        question=new String[cnt];
+        option1=new String[cnt];
+        option2=new String[cnt];
+        option3=new String[cnt];
+
+        question=dh.readQuestion(subid,db);
+        option1=dh.readOption1(subid,db);
+        option2=dh.readOption2(subid,db);
+        option3=dh.readOption3(subid,db);
+
+
+        TextView tv1 = (TextView)findViewById(R.id.tv_subname);
+        TextView tv2 = (TextView)findViewById(R.id.tv_lvlname);
+
+        tv1.setText(subname);
+        tv2.setText(lvlname);
+
 
         quiztime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=new Intent(getApplicationContext(),QuestionScreen.class);
+                i.putExtra("subname",subname);
                 startActivity(i);
             }
         });

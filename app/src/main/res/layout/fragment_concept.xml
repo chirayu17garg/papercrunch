@@ -3,15 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConceptFragment">
+    >
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/tv_frag"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FF14D4B5"
-        android:padding="8dp"
+        android:background="#7DE3DF"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:elevation="6dp"
+        android:paddingBottom="16dp"
         android:text="test"
         android:textAlignment="center"
         android:textSize="30sp" />

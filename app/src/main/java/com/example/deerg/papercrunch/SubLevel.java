@@ -37,6 +37,7 @@ public class SubLevel extends AppCompatActivity {
     public static String c1,c2,c3;
     List<String> lev;
     int id;
+    int idiot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +46,11 @@ public class SubLevel extends AppCompatActivity {
         setuptoolbar();
 
         Intent intet = getIntent();
-        String levelnam = intet.getExtras().getString("Levelname");
+        final String levelnam = intet.getExtras().getString("Levelname");
         String levelnum = intet.getExtras().getString("Level1");
         int imga = intet.getExtras().getInt("img");
         id = intet.getExtras().getInt("id");
+        idiot = id;
         Log.d("id: ",Integer.toString(id));
         TextView lvln =(TextView)findViewById(R.id.textcard1);
         TextView lvlnn =(TextView)findViewById(R.id.textlvl1);
@@ -60,6 +62,7 @@ public class SubLevel extends AppCompatActivity {
 
 
         lev = new ArrayList();
+        List legg = new ArrayList();
         final List<String> concept1;
         final List<String> concept2;
         final List<String> concept3;
@@ -73,6 +76,7 @@ public class SubLevel extends AppCompatActivity {
 
         levelDbHelper.onUpgrade(one.datavase, 1, 1);
         levelDbHelper.putsubLevel(one.datavase);
+        
         lev = levelDbHelper.readSubLevel(one.datavase,id);
         concept1=levelDbHelper.getconcept1(one.datavase,id);
         concept2=levelDbHelper.getconcept2(one.datavase,id);
@@ -94,6 +98,8 @@ public class SubLevel extends AppCompatActivity {
                 intent.putExtra("con2",c2);
                 intent.putExtra("con3",c3);
                 intent.putExtra("subname",textView.getText());
+                intent.putExtra("lul",levelnam);
+                intent.putExtra("lulu",idiot);
                 startActivity(intent);
             }
         });
@@ -154,7 +160,6 @@ public class SubLevel extends AppCompatActivity {
         listheader.add("About us");
 
         List<String> head1 = new ArrayList<String>();
-        //head1=lev;
         head1.add("Sub level 1");
         head1.add("Sub level 2");
         head1.add("Sub level 3");

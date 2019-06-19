@@ -59,6 +59,21 @@ public class LevelDbHelper extends SQLiteOpenHelper {
 
     }
 
+    public List<String> readLevelprog(SQLiteDatabase db)
+    {
+        List<String> lvl=new ArrayList<String>();
+        db= this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from level ",null);
+        cursor.moveToFirst();
+        //int cnt=0;
+        while(cursor.isAfterLast()==false){
+            lvl.add(cursor.getString(cursor.getColumnIndex("progress")));
+            //cnt++;
+            Log.d("STRING",cursor.getString(cursor.getColumnIndex("progress")));
+            cursor.moveToNext();
+        }
+        return lvl;
+    }
     public List<String> readLevel(SQLiteDatabase db)
     {
         List<String> lvl=new ArrayList<String>();

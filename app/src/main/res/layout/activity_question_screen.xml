@@ -18,7 +18,7 @@
 
         <include
             android:id="@+id/concept_screen"
-            layout="@layout/chirayuquestion"/>
+            layout="@layout/activity_question_screenlat"/>
 
     </LinearLayout>
 

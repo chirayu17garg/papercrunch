@@ -67,6 +67,19 @@ public class Main2Activity extends AppCompatActivity {
         card1.add(new CardData("Level 8","Functions","25%",R.drawable.ic_functions_black_24dp,8));
         card1.add(new CardData("Level 9","Arrays and Strings","25%",R.drawable.ic_view_array_black_24dp,9));
 
+        one=new MainActivity();
+        com.example.deerg.papercrunch.LevelDbHelper levelDbHelper = new LevelDbHelper(this);
+        one.datavase = levelDbHelper.getWritableDatabase();
+
+
+        levelDbHelper.onUpgrade(one.datavase, 1, 1);
+        levelDbHelper.putLevel(one.datavase);
+        levelDbHelper.readLevelprog(one.datavase);
+        card1.get(1);
+        Log.d("1st card", String.valueOf(card1.get(1)));
+        //levelDbHelper.putsubLevel(one.datavase);
+
+
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         RecyclerAdapter myAdap = new RecyclerAdapter(this,card1);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
@@ -187,151 +200,3 @@ public class Main2Activity extends AppCompatActivity {
 
     </ExpandableListView>*/
 
-/* <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:alignmentMode="alignMargins"
-        android:columnCount="2"
-        android:columnOrderPreserved="true"
-        android:padding="14dp"
-        android:rowCount="5">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/card1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp"
-            >
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/card2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:id="@+id/card3"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:id="@+id/card4"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:id="@+id/card5"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:id="@+id/card6"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_row="2"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:id="@+id/card7"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:id="@+id/card8"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_row="3"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
-            android:id="@+id/card9"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_row="4"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/card"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-        </android.support.v7.widget.CardView>
-
-    </GridLayout>
-
-*/
