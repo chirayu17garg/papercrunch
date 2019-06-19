@@ -1,4 +1,4 @@
-Mpackage com.example.deerg.papercrunch;
+package com.example.deerg.papercrunch;
 
 import android.content.Context;
 import android.content.Intent;
