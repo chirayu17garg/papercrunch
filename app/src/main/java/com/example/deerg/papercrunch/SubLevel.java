@@ -19,6 +19,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class SubLevel extends AppCompatActivity {
     Context mContext;
     com.example.deerg.papercrunch.LevelDbHelper levelDbHelper;
     int idiot;
-
+    int levid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,28 +56,37 @@ public class SubLevel extends AppCompatActivity {
         setuptoolbar();
 
         Intent intet = getIntent();
-        final String levelnam = intet.getExtras().getString("Levelname");
-        String levelnum = intet.getExtras().getString("Level1");
-        int imga = intet.getExtras().getInt("img");
         id = intet.getExtras().getInt("id");
+        levid = id;
         idiot = id;
-        Log.d("id: ",Integer.toString(id));
+        one=new MainActivity();
+        two=new Main2Activity();
+        levelDbHelper = new LevelDbHelper(this);
+        //levelDbHelper.putsubLevel(one.datavase);
+        lev = new ArrayList();
+        ListView list = (ListView)findViewById(R.id.sublist);
+
+        lev = levelDbHelper.readSubLevel(one.datavase,id);
+
+        CardData cardDatasub = levelDbHelper.readLevel(levid,one.datavase);
+
+
+        final String levelnam =  cardDatasub.getlevelname();;
+        String levelnum = cardDatasub.getlevelnum();
+        int imga = cardDatasub.getimg();
+        int progr = cardDatasub.geprog();
+
         TextView lvln =(TextView)findViewById(R.id.textcard1);
         TextView lvlnn =(TextView)findViewById(R.id.textlvl1);
         ImageView img = (ImageView)findViewById(R.id.card1pic);
+        TextView progress = (TextView)findViewById(R.id.prog);
 
         lvln.setText(levelnum);
         lvlnn.setText(levelnam);
         img.setImageResource(imga);
+        progress.setText(Integer.toString(progr));
 
-        lev = new ArrayList();
-        ListView list = (ListView)findViewById(R.id.sublist);
 
-        one=new MainActivity();
-        two=new Main2Activity();
-        levelDbHelper = new LevelDbHelper(this);
-        levelDbHelper.putsubLevel(one.datavase);
-        lev = levelDbHelper.readSubLevel(one.datavase,id);
 
         listheader = new ArrayList<String>();
         listchild = new HashMap<String, List<String>>();
@@ -126,6 +136,8 @@ public class SubLevel extends AppCompatActivity {
                     intent.putExtra("con3",c3);
                     intent.putExtra("subname",textView.getText());
                     intent.putExtra("levelid",idiot);
+                    intent.putExtra("lul",levelnam);
+
                     startActivity(intent);
                 }
                 else if(groupPosition==1)

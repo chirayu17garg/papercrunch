@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,9 +21,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         levelDbHelper=new LevelDbHelper(this);
-        levelDbHelper.onUpgrade(datavase, 1, 1);
-        levelDbHelper.putLevel(datavase);
-        levelDbHelper.putsubLevel(datavase);
+        //levelDbHelper.onUpgrade(datavase, 1, 1);
+        levelDbHelper.checktable(datavase);
+
         pg=(ProgressBar)findViewById(R.id.progressBar);
         final Intent i = new Intent(this,login.class);
         new Thread(new Runnable() {

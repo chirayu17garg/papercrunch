@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +28,7 @@ public class ConceptScreen extends AppCompatActivity {
     MainActivity one;
     Main2Activity two;
     SubLevel three;
+
     Context mContext;
     android.support.v7.widget.Toolbar custom_toolbar;
     DrawerLayout mDrawerLayout;
@@ -126,6 +126,7 @@ public class ConceptScreen extends AppCompatActivity {
                     intent.putExtra("con3",c3.get(childPosition));
                     intent.putExtra("subname",three.lev.get(childPosition));
                     intent.putExtra("levelid",sid);
+                    intent.putExtra("lul",lvln);
                     startActivity(intent);
                 }
                 else if(groupPosition==1)
@@ -176,15 +177,30 @@ public class ConceptScreen extends AppCompatActivity {
         TextView tv2 = (TextView)findViewById(R.id.tv_lvlname);
 
         tv1.setText(subname);
-        tv2.setText(lvlname);
+        tv2.setText(lvln);
 
+
+        if(ConceptScreen.cnt==0)
+        {
+            quiztime.setText("Next");
+        }
 
         quiztime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(getApplicationContext(),QuestionScreen.class);
-                i.putExtra("subname",subname);
-                startActivity(i);
+                if(ConceptScreen.cnt>0) {
+                    Intent i = new Intent(getApplicationContext(), QuestionScreen.class);
+                    i.putExtra("subname", subname);
+                    startActivity(i);
+                }
+                else
+                {
+                    quiztime.findViewById(R.id.btnQuiz);
+                    //quiztime.setText("Next");
+                    Intent intent1 = new Intent(ConceptScreen.this, SubLevel.class);
+                    intent1.putExtra("id",sid);
+                    startActivity(intent1);
+                }
             }
         });
 

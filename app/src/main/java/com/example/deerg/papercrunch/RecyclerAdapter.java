@@ -13,7 +13,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelViewHolder> {
+    MainActivity one;
+    LevelDbHelper levelDbHelper;
 
     private Context mContext;
     private List<CardData> cardDataList;
@@ -34,7 +37,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelV
         levelViewHolder.mImage.setImageResource(cardDataList.get(i).getimg());
         levelViewHolder.mlevelnum.setText(cardDataList.get(i).getlevelnum());
         levelViewHolder.mlevelnam.setText(cardDataList.get(i).getlevelname());
+        levelViewHolder.mprog.setText(Integer.toString(cardDataList.get(i).geprog()));
+        //one.datavase = levelDbHelper.getWritableDatabase();
 
+        //one=new MainActivity();
+
+        //levelDbHelper.putsubLevel(one.datavase);
+
+        //levelDbHelper.onUpgrade(one.datavase, 1, 1);
+        //levelDbHelper.putLevel(one.datavase);
+        //List asd = levelDbHelper.readLevelprog(one.datavase);
+        //levelViewHolder.mprog.setText(asd.get(i).toString());
        levelViewHolder.carview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +56,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelV
                 intent.putExtra("Levelname",cardDataList.get(i).getlevelname());
                 intent.putExtra("img",cardDataList.get(i).getimg());
                 intent.putExtra("id",cardDataList.get(i).getid());
+                intent.putExtra("prog",cardDataList.get(i).geprog());
                 mContext.startActivity(intent);
             }
         });
@@ -61,12 +75,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelV
         TextView mlevelnum;
         TextView mlevelnam;
         CardView carview;
+        TextView mprog;
         public LevelViewHolder(@NonNull View itemView) {
             super(itemView);
             carview = itemView.findViewById(R.id.carview);
             mImage = itemView.findViewById(R.id.card1pic);
             mlevelnam = itemView.findViewById(R.id.textlvl1);
             mlevelnum = itemView.findViewById(R.id.textcard1);
+            mprog = itemView.findViewById(R.id.prog);
 
         }
     }

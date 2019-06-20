@@ -1,29 +1,19 @@
 package com.example.deerg.papercrunch;
 
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +47,8 @@ public class Main2Activity extends AppCompatActivity {
         setuptoolbar();
 
         card1 = new ArrayList<>();
-        card1.add(new CardData("Level 1","Introduction","25%",R.drawable.ic_content_paste_black_24dp,1));
+
+        /*card1.add(new CardData("Level 1","Introduction","25%",R.drawable.ic_content_paste_black_24dp,1));
         card1.add(new CardData("Level 2","Data Types and Variables","25%",R.drawable.ic_date_range_black_24dp,2));
         card1.add(new CardData("Level 3","Operators","25%",R.drawable.ic_developer_mode_black_24dp,3));
         card1.add(new CardData("Level 4","Input/Output","25%",R.drawable.ic_input_black_24dp,4));
@@ -65,19 +56,17 @@ public class Main2Activity extends AppCompatActivity {
         card1.add(new CardData("Level 6","Conditional Statements","25%",R.drawable.ic_swap_horiz_black_24dp,6));
         card1.add(new CardData("Level 7","Loops","25%",R.drawable.ic_loop_black_24dp,7));
         card1.add(new CardData("Level 8","Functions","25%",R.drawable.ic_functions_black_24dp,8));
-        card1.add(new CardData("Level 9","Arrays and Strings","25%",R.drawable.ic_view_array_black_24dp,9));
+        card1.add(new CardData("Level 9","Arrays and Strings","25%",R.drawable.ic_view_array_black_24dp,9));*/
 
         one=new MainActivity();
         com.example.deerg.papercrunch.LevelDbHelper levelDbHelper = new LevelDbHelper(this);
-        one.datavase = levelDbHelper.getWritableDatabase();
+        //levelDbHelper.putLevel(one.datavase);
 
+        for(int i=1;i<=9;i++){
+            CardData cardData = levelDbHelper.readLevel(i,one.datavase);
+            card1.add(cardData);
+        }
 
-        levelDbHelper.onUpgrade(one.datavase, 1, 1);
-        levelDbHelper.putLevel(one.datavase);
-        levelDbHelper.readLevelprog(one.datavase);
-        card1.get(1);
-        Log.d("1st card", String.valueOf(card1.get(1)));
-        //levelDbHelper.putsubLevel(one.datavase);
 
 
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerview);

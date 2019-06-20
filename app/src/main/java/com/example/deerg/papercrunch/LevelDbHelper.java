@@ -16,7 +16,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION= 1;
 
-    public static final String CREATE_TABLE="create table level (level_id integer primary key,level_name text ,progress int)";
+    public static final String CREATE_TABLE="create table level (level_id integer primary key,level_num text,level_name text ,progress integer,image integer)";
     public static final String CREATE_TABLE3="create table sublevel1 (level_id integer primary key,sublevel1_name text , sublevel2_name text , sublevel3_name text , sublevel4_name text)";
     public static final String CREATE_TABLE2="create table sublevel (sub_level_id integer primary key,sublevel_name text,concept1 text,concept2 text,concept3 text,level_id integer)";
 
@@ -33,9 +33,13 @@ public class LevelDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        //db=this.getWritableDatabase();
         db.execSQL(CREATE_TABLE);
         db.execSQL(CREATE_TABLE2);
         db.execSQL(CREATE_TABLE3);
+        putLevel(db);
+        putsubLevel(db);
+        changeprogress(1,db,60);
         Log.d("Databaase Op","Table created");
 
     }
@@ -49,12 +53,23 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addLevel(int id,String level,int progress,SQLiteDatabase db){
+    public void checktable(SQLiteDatabase db){
+
+        db=this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from sqlite_master", null);
+        if(cursor.getCount()==0) {
+            onCreate(db);
+        }
+    }
+
+    public void addLevel(int id,String levelnum,String level,int progress,int img,SQLiteDatabase db){
         db= this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("level_id",id);
         contentValues.put("level_name",level);
+        contentValues.put("level_num",levelnum);
         contentValues.put("progress",progress);
+        contentValues.put("image",img);
 
         db.insert("level",null,contentValues);
 
@@ -75,32 +90,51 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         }
         return lvl;
     }
-    public List<String> readLevel(SQLiteDatabase db)
-    {
+    public int getprogress(SQLiteDatabase db,int id){
+        int prog=0;
+        db=this.getReadableDatabase();
+        String level = Integer.toString(id);
+        Cursor cursor = db.rawQuery("select progress from level where level_id= ?",new String[]{level});
+        prog=cursor.getInt(cursor.getColumnIndex("progress"));
+        return prog;
+    }
+    public CardData readLevel(int id,SQLiteDatabase db) {
         List<String> lvl=new ArrayList<String>();
         db= this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from level ",null);
+        String level = Integer.toString(id);
+        Cursor cursor = db.rawQuery("select * from level where level_id = ?",new String[]{level});
         cursor.moveToFirst();
         //int cnt=0;
-        while(cursor.isAfterLast()==false){
-            lvl.add(cursor.getString(cursor.getColumnIndex("level_name")));
-            //cnt++;
-            Log.d("STRING",cursor.getString(cursor.getColumnIndex("level_name")));
-            cursor.moveToNext();
-        }
-        return lvl;
+        String lvlname;
+        String lvlnum;
+        int prog;
+        int img;
+        lvlname = cursor.getString(cursor.getColumnIndex("level_name"));
+        lvlnum = cursor.getString(cursor.getColumnIndex("level_num"));
+        prog = cursor.getInt(cursor.getColumnIndex("progress"));
+        img = cursor.getInt(cursor.getColumnIndex("image"));
+
+        return new CardData(lvlnum,lvlname,prog,img,id);
     }
+
+    public void changeprogress(int id,SQLiteDatabase db,int prog){
+        String level=Integer.toString(id);
+        String progress=Integer.toString(prog);
+        db=this.getWritableDatabase();
+        db.execSQL("update level set progress = ? where level_id =  ? ",new String[]{progress,level});
+    }
+
     public void putLevel(SQLiteDatabase db){
         db= this.getWritableDatabase();
-        addLevel(1,"Introduction",50,db);
-        addLevel(2,"Data Types and Variables",50,db);
-        addLevel(3,"Operators",50,db);
-        addLevel(4,"Input/Output",50,db);
-        addLevel(5,"Logical Operators",50,db);
-        addLevel(6,"Conditional Statements",50,db);
-        addLevel(7,"Loops",50,db);
-        addLevel(8,"Functions",50,db);
-        addLevel(9,"Arrays and Strings",50,db);
+        addLevel(1,"Level 1","Introduction",50,R.drawable.ic_content_paste_black_24dp,db);
+        addLevel(2,"Level 2","Data Types and Variables",50,R.drawable.ic_date_range_black_24dp,db);
+        addLevel(3,"Level 3","Operators",50,R.drawable.ic_developer_mode_black_24dp,db);
+        addLevel(4,"Level 4","Input/Output",50,R.drawable.ic_input_black_24dp,db);
+        addLevel(5,"Level 5","Logical Operators",50,R.drawable.logic,db);
+        addLevel(6,"Level 6","Conditional Statements",50,R.drawable.ic_swap_horiz_black_24dp,db);
+        addLevel(7,"Level 7","Loops",50,R.drawable.ic_loop_black_24dp,db);
+        addLevel(8,"Level 8","Functions",50,R.drawable.ic_functions_black_24dp,db);
+        addLevel(9,"Level 9","Arrays and Strings",50,R.drawable.ic_view_array_black_24dp,db);
     }
 
 

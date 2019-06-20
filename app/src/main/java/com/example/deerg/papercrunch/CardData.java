@@ -5,8 +5,8 @@ public class CardData {
     private String level_name;
     private int img;
     private int id;
-    private String prog;
-    public CardData(String Level,String level_name,String prog,int img,int id){
+    private int prog;
+    public CardData(String Level,String level_name,int prog,int img,int id){
         this.Level = Level;
         this.level_name = level_name;
         this.img = img;
@@ -20,7 +20,7 @@ public class CardData {
     public String getlevelname(){
         return level_name;
     }
-    public String geprog(){
+    public int geprog(){
         return prog;
     }
     public int getimg(){
