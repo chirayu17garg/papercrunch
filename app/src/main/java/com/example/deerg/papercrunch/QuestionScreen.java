@@ -1,6 +1,7 @@
 package com.example.deerg.papercrunch;
 
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,16 +31,23 @@ public class QuestionScreen extends AppCompatActivity {
     android.widget.ExpandableListAdapter mExpandableListAdapter;
     List<String> listheader;
     HashMap<String, List<String>> listchild;
+    public static String subname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_screen);
         setuptoolbar();
+        Intent getinfo = getIntent();
+        subname = getinfo.getExtras().getString("subname");
+
 
         vp1=findViewById(R.id.vp_question);
         adapter1=new QuetionFragmentAdapter(getSupportFragmentManager());
         vp1.setAdapter(adapter1);
+
+        TextView tv = (TextView)findViewById(R.id.tv_que_subname);
+        tv.setText(subname);
     }
     public void setuptoolbar() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

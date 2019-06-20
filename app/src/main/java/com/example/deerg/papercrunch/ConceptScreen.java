@@ -1,5 +1,6 @@
 package com.example.deerg.papercrunch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -25,6 +26,10 @@ import java.util.List;
 
 public class ConceptScreen extends AppCompatActivity {
 
+    MainActivity one;
+    Main2Activity two;
+    SubLevel three;
+    Context mContext;
     android.support.v7.widget.Toolbar custom_toolbar;
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -36,7 +41,7 @@ public class ConceptScreen extends AppCompatActivity {
     private ViewPager vp;
     private SliderFragmentAdapter adapter;
     Button quiztime;
-    MainActivity one;
+    public static List<String> c1,c2,c3;
     public static String concept1;
     public static String concept2;
     public static String concept3;
@@ -55,20 +60,14 @@ public class ConceptScreen extends AppCompatActivity {
     public static int cnt=0;
     DataDbHelper dh=new DataDbHelper(this);
     SQLiteDatabase db;
+    LevelDbHelper levelDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_concept_screen);
+        mContext=this;
         setuptoolbar();
-
-        vp=findViewById(R.id.vp_question);
-        adapter=new SliderFragmentAdapter(getSupportFragmentManager());
-        vp.setAdapter(adapter);
-
-
-
-        quiztime=(Button)findViewById(R.id.btnQuiz);
 
         Intent getinfo = getIntent();
         concept1 = getinfo.getExtras().getString("con1");
@@ -78,10 +77,86 @@ public class ConceptScreen extends AppCompatActivity {
         lvln = getinfo.getExtras().getString("lul");
         sid=getinfo.getExtras().getInt("lulu");
 
-        Toast.makeText(this, "test "+sid, Toast.LENGTH_SHORT).show();
+        listheader = new ArrayList<String>();
+        listchild = new HashMap<String, List<String>>();
+        listheader.add("View All Sub Levels");
+        listheader.add("View Prevoius Level");
+        listheader.add("View Next Level");
+        listheader.add("");
+        listheader.add("");
+        listheader.add("");
+        listheader.add("Settings");
+        listheader.add("Rate us");
+        listheader.add("About us");
+
+        one=new MainActivity();
+        two=new Main2Activity();
+        three=new SubLevel();
+        levelDbHelper=new LevelDbHelper(this);
+        mContext=this;
+
+        c1=SubLevel.concept1;
+        c2=SubLevel.concept2;
+        c3=SubLevel.concept3;
+
+        listchild.put(listheader.get(0),three.lev);
+        listchild.put(listheader.get(1), three.head2);
+
+        mExpandableListView = (ExpandableListView) findViewById(R.id.navmenu);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mExpandableListAdapter = new com.example.deerg.papercrunch.ExpandableListAdapter(this, listheader, listchild, mExpandableListView);
+        mExpandableListView.setAdapter(mExpandableListAdapter);
+        getSupportActionBar().setIcon(R.drawable.logo1);
+        getSupportActionBar().setTitle("");
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, custom_toolbar, R.string.app_name, R.string.app_name);
+        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
+        mActionBarDrawerToggle.syncState();
+        navigationView.setItemIconTintList(null);
+
+        mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id1) {
+                if(groupPosition==0)
+                {
+                    TextView textView = (TextView) findViewById(R.id.subt);
+                    Intent intent;
+                    intent = new Intent(ConceptScreen.this,ConceptScreen.class);
+                    intent.putExtra("con1",c1.get(childPosition));
+                    intent.putExtra("con2",c2.get(childPosition));
+                    intent.putExtra("con3",c3.get(childPosition));
+                    intent.putExtra("subname",three.lev.get(childPosition));
+                    intent.putExtra("levelid",sid);
+                    startActivity(intent);
+                }
+                else if(groupPosition==1)
+                {
+                    Intent intent = new Intent(mContext,SubLevel.class);
+                    intent.putExtra("Level1",two.card1.get(childPosition).getlevelnum());
+                    intent.putExtra("Levelname",two.card1.get(childPosition).getlevelname());
+                    intent.putExtra("img",two.card1.get(childPosition).getimg());
+                    intent.putExtra("id",childPosition+1);
+                    mContext.startActivity(intent);
+                }
+                finish();
+                return true;
+            }
+        });
+
+        vp=findViewById(R.id.vp_question);
+        adapter=new SliderFragmentAdapter(getSupportFragmentManager());
+        vp.setAdapter(adapter);
+
+
+
+        quiztime=(Button)findViewById(R.id.btnQuiz);
+
+
+
         subname = subn;
         lvlname = lvln;
-        //subid=sid;
+        levelDbHelper.putsubLevel(one.datavase);
+        subid = levelDbHelper.readSubid(subname,one.datavase);
+        Toast.makeText(this, "test "+subid, Toast.LENGTH_SHORT).show();
         dh.insertInValues(db);
         cnt=dh.readCount(subid,db);
 
@@ -120,58 +195,8 @@ public class ConceptScreen extends AppCompatActivity {
             custom_toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.custom_toolbar);
         }
         setSupportActionBar(custom_toolbar);
-        mExpandableListView = (ExpandableListView) findViewById(R.id.navmenu);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        prepareData();
-        mExpandableListAdapter = new com.example.deerg.papercrunch.ExpandableListAdapter(this, listheader, listchild, mExpandableListView);
-        mExpandableListView.setAdapter(mExpandableListAdapter);
-        getSupportActionBar().setIcon(R.drawable.logo1);
-        getSupportActionBar().setTitle("");
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, custom_toolbar, R.string.app_name, R.string.app_name);
-        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-        mActionBarDrawerToggle.syncState();
-        navigationView.setItemIconTintList(null);
-
-        mExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int previousGroup = -1;
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                if(groupPosition != previousGroup)
-                    mExpandableListView.collapseGroup(previousGroup);
-                previousGroup = groupPosition;
-            }
-        });
     }
 
-    private void prepareData() {
-        listheader = new ArrayList<String>();
-        listchild = new HashMap<String, List<String>>();
-        listheader.add("View All Sub Levels");
-        listheader.add("View Prevoius Level");
-        listheader.add("View Next Level");
-        listheader.add("");
-        listheader.add("");
-        listheader.add("");
-        listheader.add("Settings");
-        listheader.add("Rate us");
-        listheader.add("About us");
-
-        List<String> head1 = new ArrayList<String>();
-        head1.add("Sub level 1");
-        head1.add("Sub level 2");
-        head1.add("Sub level 3");
-        head1.add("Sub level 4");
-
-        List<String> head2 = new ArrayList<String>();
-        head2.add("Level 1");
-        head2.add("Level 2");
-        head2.add("Level 3");
-        head2.add("Level 4");
-
-        listchild.put(listheader.get(0), head1);
-        listchild.put(listheader.get(1), head2);
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();

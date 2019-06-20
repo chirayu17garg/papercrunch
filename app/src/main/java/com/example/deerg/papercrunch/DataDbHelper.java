@@ -138,7 +138,9 @@ public class DataDbHelper extends SQLiteOpenHelper {
         db= this.getReadableDatabase();
         Cursor cursor=db.rawQuery("SELECT COUNT(id) AS count FROM Quiz GROUP BY subLevel_id having subLevel_id="+subid,null);
         cursor.moveToFirst();
-        int count=cursor.getInt(cursor.getColumnIndex("count"));
+        int count=0;
+        if(cursor.moveToFirst())
+        count=cursor.getInt(cursor.getColumnIndex("count"));
         return count;
     }
     public String[] readQuestion(int subid,SQLiteDatabase db)

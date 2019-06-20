@@ -47,7 +47,7 @@ public class Main2Activity extends AppCompatActivity {
     private Object LevelDbHelper;
     //SQLiteDatabase datavase;
     MainActivity one;
-    List<CardData> card1;
+    public static List<CardData> card1;
 
 
     @Override

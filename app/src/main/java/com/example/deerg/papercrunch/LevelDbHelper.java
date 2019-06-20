@@ -42,6 +42,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db=this.getWritableDatabase();
         db.execSQL(DROP_TABLE);
         db.execSQL(DROP_TABLE2);
         db.execSQL(DROP_TABLE3);
@@ -101,6 +102,23 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         addLevel(8,"Functions",50,db);
         addLevel(9,"Arrays and Strings",50,db);
     }
+
+
+    public List<String> getprev(SQLiteDatabase db, int id){
+        List<String> lev =new ArrayList<String>();
+        db= this.getReadableDatabase();
+        String level=Integer.toString(id);
+        Cursor cursor = db.rawQuery("select * from level where level_id < ?",new String[]{level});
+        cursor.moveToFirst();
+        while(cursor.isAfterLast()==false)
+        {
+            lev.add(cursor.getString(cursor.getColumnIndex("level_name")));
+            cursor.moveToNext();
+
+        }
+        return lev;
+    }
+
     public void addsubLevel1(int id,String sublevel1,String sublevel2,String sublevel3,String sublevel4,SQLiteDatabase db){
         db= this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -211,6 +229,17 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         }
         return lev;
     }
+    public int readSubid(String subname,SQLiteDatabase db)
+    {
+        db=this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT sub_level_id FROM sublevel WHERE sublevel_name = ?",new String[]{subname});
+        int a;
+        cursor.moveToFirst();
+        a=cursor.getInt(cursor.getColumnIndex("sub_level_id"));
+        return a;
+
+    }
+
 
 
     public void putsubLevel(SQLiteDatabase db){

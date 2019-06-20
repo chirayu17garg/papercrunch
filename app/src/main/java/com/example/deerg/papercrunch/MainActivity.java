@@ -14,10 +14,17 @@ public class MainActivity extends AppCompatActivity {
     Handler mHandler=new Handler();
     private int mprogressbar=0;
     SQLiteDatabase datavase;
+    LevelDbHelper levelDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        levelDbHelper=new LevelDbHelper(this);
+        levelDbHelper.onUpgrade(datavase, 1, 1);
+        levelDbHelper.putLevel(datavase);
+        levelDbHelper.putsubLevel(datavase);
         pg=(ProgressBar)findViewById(R.id.progressBar);
         final Intent i = new Intent(this,login.class);
         new Thread(new Runnable() {

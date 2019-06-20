@@ -1,5 +1,6 @@
 package com.example.deerg.papercrunch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
@@ -26,6 +27,7 @@ import java.util.List;
 public class SubLevel extends AppCompatActivity {
     //SQLiteDatabase datavase;
     MainActivity one;
+    Main2Activity two;
     android.support.v7.widget.Toolbar custom_toolbar;
     DrawerLayout mDrawerLayout;
     ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -35,14 +37,21 @@ public class SubLevel extends AppCompatActivity {
     List<String> listheader;
     HashMap<String, List<String>> listchild;
     public static String c1,c2,c3;
-    List<String> lev;
-    int id;
+    public static List<String> lev;
+    public static List<String> head2;
+    public static List<String> concept1;
+    public static List<String> concept2;
+    public static List<String> concept3;
+    public static int id;
+    Context mContext;
+    com.example.deerg.papercrunch.LevelDbHelper levelDbHelper;
     int idiot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_level);
+        mContext=this;
         setuptoolbar();
 
         Intent intet = getIntent();
@@ -60,27 +69,78 @@ public class SubLevel extends AppCompatActivity {
         lvlnn.setText(levelnam);
         img.setImageResource(imga);
 
-
         lev = new ArrayList();
-        List legg = new ArrayList();
-        final List<String> concept1;
-        final List<String> concept2;
-        final List<String> concept3;
-
         ListView list = (ListView)findViewById(R.id.sublist);
 
         one=new MainActivity();
-        com.example.deerg.papercrunch.LevelDbHelper levelDbHelper = new LevelDbHelper(this);
-        one.datavase = levelDbHelper.getWritableDatabase();
-
-
-        levelDbHelper.onUpgrade(one.datavase, 1, 1);
+        two=new Main2Activity();
+        levelDbHelper = new LevelDbHelper(this);
         levelDbHelper.putsubLevel(one.datavase);
-        
         lev = levelDbHelper.readSubLevel(one.datavase,id);
+
+        listheader = new ArrayList<String>();
+        listchild = new HashMap<String, List<String>>();
+        listheader.add("View All Sub Levels");
+        listheader.add("View Prevoius Level");
+        listheader.add("View Next Level");
+        listheader.add("");
+        listheader.add("");
+        listheader.add("");
+        listheader.add("Settings");
+        listheader.add("Rate us");
+        listheader.add("About us");
+
+        head2=levelDbHelper.getprev(one.datavase,id);
+
+        listchild.put(listheader.get(0), lev);
+        listchild.put(listheader.get(1), head2);
+
+        mExpandableListView = (ExpandableListView) findViewById(R.id.navmenu);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mExpandableListAdapter = new com.example.deerg.papercrunch.ExpandableListAdapter(this, listheader, listchild, mExpandableListView);
+        mExpandableListView.setAdapter(mExpandableListAdapter);
+        getSupportActionBar().setIcon(R.drawable.logo1);
+        getSupportActionBar().setTitle("");
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, custom_toolbar, R.string.app_name, R.string.app_name);
+        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
+        mActionBarDrawerToggle.syncState();
+        navigationView.setItemIconTintList(null);
+
         concept1=levelDbHelper.getconcept1(one.datavase,id);
         concept2=levelDbHelper.getconcept2(one.datavase,id);
         concept3=levelDbHelper.getconcept3(one.datavase,id);
+
+        mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                if(groupPosition==0)
+                {
+                    TextView textView = (TextView) findViewById(R.id.subt);
+                    Intent intent;
+                    c1=concept1.get(childPosition);
+                    c2=concept2.get(childPosition);
+                    c3=concept3.get(childPosition);
+                    intent = new Intent(SubLevel.this,ConceptScreen.class);
+                    intent.putExtra("con1",c1);
+                    intent.putExtra("con2",c2);
+                    intent.putExtra("con3",c3);
+                    intent.putExtra("subname",textView.getText());
+                    intent.putExtra("levelid",idiot);
+                    startActivity(intent);
+                }
+                else if(groupPosition==1)
+                {
+                    Intent intent = new Intent(mContext,SubLevel.class);
+                    intent.putExtra("Level1",two.card1.get(childPosition).getlevelnum());
+                    intent.putExtra("Levelname",two.card1.get(childPosition).getlevelname());
+                    intent.putExtra("img",two.card1.get(childPosition).getimg());
+                    intent.putExtra("id",childPosition+1);
+                    mContext.startActivity(intent);
+                }
+                finish();
+                return true;
+            }
+        });
 
         ArrayAdapter<String> adap = new ArrayAdapter<String>(this,R.layout.sublevel_text,lev);
         list.setAdapter(adap);
@@ -88,7 +148,8 @@ public class SubLevel extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView textView = (TextView) findViewById(R.id.subt);
+                //TextView textView = (TextView) findViewById(R.id.subt);
+                String sub = lev.get(position);
                 Intent intent;
                 c1=concept1.get(position);
                 c2=concept2.get(position);
@@ -97,9 +158,9 @@ public class SubLevel extends AppCompatActivity {
                 intent.putExtra("con1",c1);
                 intent.putExtra("con2",c2);
                 intent.putExtra("con3",c3);
-                intent.putExtra("subname",textView.getText());
+                intent.putExtra("subname",sub);
                 intent.putExtra("lul",levelnam);
-                intent.putExtra("lulu",idiot);
+                intent.putExtra("lulu",idiot);//levlid
                 startActivity(intent);
             }
         });
@@ -122,57 +183,5 @@ public class SubLevel extends AppCompatActivity {
             custom_toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.custom_toolbar);
         }
         setSupportActionBar(custom_toolbar);
-        mExpandableListView = (ExpandableListView) findViewById(R.id.navmenu);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        prepareData();
-        mExpandableListAdapter = new com.example.deerg.papercrunch.ExpandableListAdapter(this, listheader, listchild, mExpandableListView);
-        mExpandableListView.setAdapter(mExpandableListAdapter);
-        getSupportActionBar().setIcon(R.drawable.logo1);
-        getSupportActionBar().setTitle("");
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, custom_toolbar, R.string.app_name, R.string.app_name);
-        mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
-        mActionBarDrawerToggle.syncState();
-        navigationView.setItemIconTintList(null);
-
-        mExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int previousGroup = -1;
-
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                if(groupPosition != previousGroup)
-                    mExpandableListView.collapseGroup(previousGroup);
-                previousGroup = groupPosition;
-            }
-        });
     }
-
-    private void prepareData() {
-        listheader = new ArrayList<String>();
-        listchild = new HashMap<String, List<String>>();
-        listheader.add("View All Sub Levels");
-        listheader.add("View Prevoius Level");
-        listheader.add("View Next Level");
-        listheader.add("");
-        listheader.add("");
-        listheader.add("");
-        listheader.add("Settings");
-        listheader.add("Rate us");
-        listheader.add("About us");
-
-        List<String> head1 = new ArrayList<String>();
-        head1.add("Sub level 1");
-        head1.add("Sub level 2");
-        head1.add("Sub level 3");
-        head1.add("Sub level 4");
-
-        List<String> head2 = new ArrayList<String>();
-        head2.add("Level 1");
-        head2.add("Level 2");
-        head2.add("Level 3");
-        head2.add("Level 4");
-
-        listchild.put(listheader.get(0), head1);
-        listchild.put(listheader.get(1), head2);
-    }
-
 }
