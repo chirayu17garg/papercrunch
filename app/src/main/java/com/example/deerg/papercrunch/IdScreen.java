@@ -205,8 +205,4 @@ public class IdScreen extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-
-    }
 }

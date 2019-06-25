@@ -41,7 +41,6 @@ public class Main2Activity extends AppCompatActivity {
     List<String> listheader;
     HashMap<String, List<String>> listchild;
     private ExpandableListView listView;
-    private aExpandableListAdapter listAdapter;
     private List<String> listDataHeader;
     private HashMap<String, List<String>> listHash;
     private ProgressBar progressBar;

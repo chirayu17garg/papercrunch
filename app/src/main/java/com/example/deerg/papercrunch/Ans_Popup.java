@@ -23,8 +23,6 @@ public class Ans_Popup extends AppCompatActivity {
 
     private TextView tv1;
     private TextView tv2;
-
-    //private ImageView iv;
     private ImageView iv1;
     private ImageView iv2;
     private ImageView iv3;
@@ -32,10 +30,10 @@ public class Ans_Popup extends AppCompatActivity {
     private ImageView iv5;
     private ImageView iv6;
     public static int tries=0;
-
     MainActivity one;
     LevelDbHelper levelDbHelper;
     private ImageView iv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +58,6 @@ public class Ans_Popup extends AppCompatActivity {
         tv1=(TextView)findViewById(R.id.tv_correct);
         tv2=(TextView)findViewById(R.id.tv_hint1);
 
-
         iv1=(ImageView)findViewById(R.id.star1_on);
         iv2=(ImageView)findViewById(R.id.star1_off);
         iv3=(ImageView)findViewById(R.id.star2_on);
@@ -68,13 +65,8 @@ public class Ans_Popup extends AppCompatActivity {
         iv5=(ImageView)findViewById(R.id.star3_on);
         iv6=(ImageView)findViewById(R.id.star3_off);
 
-
-
-
-
         String ans=ConceptScreen.answer[QuetionFragmentAdapter.index];
 
-        //Toast.makeText(this, "test "+ans+" "+QuestionFragment.ab, Toast.LENGTH_SHORT).show();
         if(QuestionFragment.ab.equals(ans))
         {
             tv1.setText("Yay That's Correct!!");
@@ -106,7 +98,6 @@ public class Ans_Popup extends AppCompatActivity {
                 {
                     if(ConceptScreen.cnt==(QuetionFragmentAdapter.index+1))
                     {
-                        //next sun level or level
                         QuetionFragmentAdapter.index=0;
                         int check = levelDbHelper.getbool(subid,one.datavase);
                         if(check==1){
@@ -114,10 +105,7 @@ public class Ans_Popup extends AppCompatActivity {
                             prog = levelDbHelper.getprogress(one.datavase,levid);
                             int size = lev.size();
                             switch (size){
-                                //case 2 : levelDbHelper.changeprogress(levid,one.datavase,prog+=25);break;
                                 case 3 : levelDbHelper.changeprogress(levid,one.datavase,prog+=17);break;
-                                //case 4 : levelDbHelper.changeprogress(levid,one.datavase,prog+=15);break;
-                                //case 5 : levelDbHelper.changeprogress(levid,one.datavase,prog+=10);break;
                                 default: levelDbHelper.changeprogress(levid,one.datavase,prog+=(50/size));break;
 
                             }
@@ -127,7 +115,6 @@ public class Ans_Popup extends AppCompatActivity {
 
                         }
                         levelDbHelper.updatebool(subid,one.datavase,2);
-
 
                         Intent intent = new Intent(getApplicationContext(),SubLevel.class);
                         intent.putExtra("Level1",card1.get(levid).getlevelnum());
@@ -149,24 +136,6 @@ public class Ans_Popup extends AppCompatActivity {
                 }
             });
 
-         /*if(QuetionFragmentAdapter.index!=ConceptScreen.cnt-1) {
-              QuetionFragmentAdapter.index++;
-              iv = (ImageView) findViewById(R.id.iv_next);
-              iv.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                      Intent intent7 = new Intent(getApplicationContext(), QuestionScreen.class);
-                      intent7.putExtra("subname",subname);
-                      startActivity(intent7);
-                      finish();
-                  }
-              });
-          }
-         else{
-
-
-         }*/
-
         }
         else
         {
@@ -183,9 +152,5 @@ public class Ans_Popup extends AppCompatActivity {
                 }
             });
         }
-
-
     }
-
-
 }

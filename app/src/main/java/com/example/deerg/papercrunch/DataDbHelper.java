@@ -62,7 +62,6 @@ public class DataDbHelper extends SQLiteOpenHelper {
 
     public void insertInValues(SQLiteDatabase db)
     {
-        //db= this.getWritableDatabase();
         addData(1,"What will the following command print?\nprintf(\"This is a line\");\nprintf(\"This is also a line\");",
                 "This is a line\nThis is also a line","This is a lineThis is also a line","This is   a line. This is also a line",
                 "This is a lineThis is also a line","Since there is no '\\n', the cursor would never go to the next line and would continue printing in the same line",0,4,db);

@@ -27,7 +27,6 @@ public class ConceptScreen extends AppCompatActivity {
 
     MainActivity one;
     Main2Activity two;
-
     Context mContext;
     android.support.v7.widget.Toolbar custom_toolbar;
     DrawerLayout mDrawerLayout;
@@ -180,8 +179,6 @@ public class ConceptScreen extends AppCompatActivity {
 
 
         subid = levelDbHelper.readSubid(subname,one.datavase);
-        //Toast.makeText(this, "test "+subid, Toast.LENGTH_SHORT).show();
-        //dh.insertInValues(db);
         cnt=dh.readCount(subid,db);
 
 
@@ -227,10 +224,7 @@ public class ConceptScreen extends AppCompatActivity {
                         prog = levelDbHelper.getprogress(one.datavase,levid);
                         int size = lev.size();
                         switch (size){
-                            //case 2 : levelDbHelper.changeprogress(levid,one.datavase,prog+=25);break;
                             case 3 : levelDbHelper.changeprogress(levid,one.datavase,prog+=17);break;
-                            //case 4 : levelDbHelper.changeprogress(levid,one.datavase,prog+=10);break;
-                            //case 5 : levelDbHelper.changeprogress(levid,one.datavase,prog+=10);break;
                             default: levelDbHelper.changeprogress(levid,one.datavase,prog+=(50/size));break;
 
                         }
@@ -240,7 +234,6 @@ public class ConceptScreen extends AppCompatActivity {
 
                     Intent i = new Intent(getApplicationContext(), QuestionScreen.class);
                     i.putExtra("subname", subname);
-                    //two.recreate();
                     startActivity(i);
                     finish();
                 }
@@ -253,10 +246,7 @@ public class ConceptScreen extends AppCompatActivity {
                         prog = levelDbHelper.getprogress(one.datavase,levid);
                         int size = lev.size();
                         switch (size){
-                            //case 2 : levelDbHelper.changeprogress(levid,one.datavase,prog+=50);break;
                             case 3 : levelDbHelper.changeprogress(levid,one.datavase,prog+=32);break;
-                            //case 4 : levelDbHelper.changeprogress(levid,one.datavase,prog+=25);break;
-                            //case 5 : levelDbHelper.changeprogress(levid,one.datavase,prog+=20);break;
                             default: levelDbHelper.changeprogress(levid,one.datavase,prog+=(100/size));break;
                         }
                         if(prog>95){
@@ -265,14 +255,12 @@ public class ConceptScreen extends AppCompatActivity {
 
                     }
                     levelDbHelper.updatebool(subid,one.datavase,1);
-                    //quiztime.setText("Next");
                     Intent intent1 = new Intent(ConceptScreen.this, SubLevel.class);
                     intent1.putExtra("Level1",two.card1.get(levid).getlevelnum());
                     intent1.putExtra("Levelname",two.card1.get(levid).getlevelname());
                     intent1.putExtra("img",two.card1.get(levid).getimg());
                     intent1.putExtra("prog",two.card1.get(levid).geprog());
                     intent1.putExtra("id",levid);
-                    //two.recreate();
                     startActivity(intent1);
 
                     finish();
@@ -296,7 +284,6 @@ public class ConceptScreen extends AppCompatActivity {
         intent1.putExtra("img",two.card1.get(levid).getimg());
         intent1.putExtra("prog",two.card1.get(levid).geprog());
         intent1.putExtra("id",levid);
-        //two.recreate();
         startActivity(intent1);
 
 

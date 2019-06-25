@@ -170,7 +170,7 @@ public class QuestionScreen extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        
+
         Intent i=new Intent(this,IdScreen.class);
         startActivity(i);
         return super.onOptionsItemSelected(item);
