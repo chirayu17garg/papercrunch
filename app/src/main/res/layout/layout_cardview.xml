@@ -16,9 +16,11 @@
     tools:ignore="InvalidId">
 
     <ImageView
+        android:id="@+id/background"
         android:layout_width="172dp"
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
+
         android:src="@drawable/card" />
     <ImageView
         android:layout_width="60dp"
@@ -52,9 +54,10 @@
 
     <TextView
         android:id="@+id/prog"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
+        android:textAlignment="textEnd"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
+        android:layout_marginLeft="100dp"
         android:layout_marginTop="150dp"
         android:text="25"
         android:textColor="@android:color/background_light"

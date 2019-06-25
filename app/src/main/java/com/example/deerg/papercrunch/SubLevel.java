@@ -44,6 +44,7 @@ public class SubLevel extends AppCompatActivity {
     public static List<String> concept2;
     public static List<String> concept3;
     public static int id;
+    public static int SizeOfLevel;
     Context mContext;
     com.example.deerg.papercrunch.LevelDbHelper levelDbHelper;
     int idiot;
@@ -57,21 +58,21 @@ public class SubLevel extends AppCompatActivity {
 
         Intent intet = getIntent();
         id = intet.getExtras().getInt("id");
-        levid = id;
+        levid = id-1;
         idiot = id;
         one=new MainActivity();
         two=new Main2Activity();
         levelDbHelper = new LevelDbHelper(this);
-        //levelDbHelper.putsubLevel(one.datavase);
-        lev = new ArrayList();
+
+        //lev = new ArrayList();
         ListView list = (ListView)findViewById(R.id.sublist);
 
         lev = levelDbHelper.readSubLevel(one.datavase,id);
 
-        CardData cardDatasub = levelDbHelper.readLevel(levid,one.datavase);
+        CardData cardDatasub = levelDbHelper.readLevel(levid+1,one.datavase);
 
 
-        final String levelnam =  cardDatasub.getlevelname();;
+        final String levelnam =  cardDatasub.getlevelname();
         String levelnum = cardDatasub.getlevelnum();
         int imga = cardDatasub.getimg();
         int progr = cardDatasub.geprog();
@@ -136,7 +137,7 @@ public class SubLevel extends AppCompatActivity {
                     intent.putExtra("con3",c3);
                     intent.putExtra("subname",textView.getText());
                     intent.putExtra("levelid",idiot);
-                    intent.putExtra("lul",levelnam);
+                    intent.putExtra("levelname",levelnam);
 
                     startActivity(intent);
                 }
@@ -146,6 +147,7 @@ public class SubLevel extends AppCompatActivity {
                     intent.putExtra("Level1",two.card1.get(childPosition).getlevelnum());
                     intent.putExtra("Levelname",two.card1.get(childPosition).getlevelname());
                     intent.putExtra("img",two.card1.get(childPosition).getimg());
+                    intent.putExtra("prog",two.card1.get(childPosition).geprog());
                     intent.putExtra("id",childPosition+1);
                     mContext.startActivity(intent);
                 }
@@ -154,8 +156,25 @@ public class SubLevel extends AppCompatActivity {
             }
         });
 
+        mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if(groupPosition==0 || groupPosition==1)
+                {
+                    mExpandableListView.expandGroup(groupPosition);
+                }
+                else if(groupPosition==6)
+                {
+                    Intent i=new Intent(mContext,settings.class);
+                    startActivity(i);
+                }
+                return true;
+            }
+        });
+
         ArrayAdapter<String> adap = new ArrayAdapter<String>(this,R.layout.sublevel_text,lev);
         list.setAdapter(adap);
+        SizeOfLevel = lev.size();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -171,21 +190,31 @@ public class SubLevel extends AppCompatActivity {
                 intent.putExtra("con2",c2);
                 intent.putExtra("con3",c3);
                 intent.putExtra("subname",sub);
-                intent.putExtra("lul",levelnam);
-                intent.putExtra("lulu",idiot);//levlid
+                intent.putExtra("levelname",levelnam);
+                intent.putExtra("levelid",idiot);//levlid
                 startActivity(intent);
+                finish();
             }
         });
 
     }
+    @Override
+    public void onBackPressed(){
+        Intent i = new Intent(this,Main2Activity.class);
+        startActivity(i);
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.onerflow_menu, menu);
+        ImageeAdapter imageeAdapter=new ImageeAdapter(this);
+        menu.findItem(R.id.avatar).setIcon(imageeAdapter.image_id2[one.avid]);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i=new Intent(this,IdScreen.class);
+        startActivity(i);
         return super.onOptionsItemSelected(item);
     }
 
@@ -196,4 +225,5 @@ public class SubLevel extends AppCompatActivity {
         }
         setSupportActionBar(custom_toolbar);
     }
+
 }

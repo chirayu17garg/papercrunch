@@ -27,7 +27,6 @@ public class ConceptScreen extends AppCompatActivity {
 
     MainActivity one;
     Main2Activity two;
-    SubLevel three;
 
     Context mContext;
     android.support.v7.widget.Toolbar custom_toolbar;
@@ -52,15 +51,21 @@ public class ConceptScreen extends AppCompatActivity {
     public static String option2[];
     public static String option3[];
 
+    public static String answer[];
+    public static String hint[];
+
+
     public static String subname;
     public static String lvlname;
     public static int sid;
-
+    public static int levid;
     public static int subid=15;
     public static int cnt=0;
     DataDbHelper dh=new DataDbHelper(this);
     SQLiteDatabase db;
     LevelDbHelper levelDbHelper;
+    public static List<String> lev;
+    public static List<String> head2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +79,8 @@ public class ConceptScreen extends AppCompatActivity {
         concept2 = getinfo.getExtras().getString("con2");
         concept3 = getinfo.getExtras().getString("con3");
         subn = getinfo.getExtras().getString("subname");
-        lvln = getinfo.getExtras().getString("lul");
-        sid=getinfo.getExtras().getInt("lulu");
+        lvln = getinfo.getExtras().getString("levelname");
+        sid=getinfo.getExtras().getInt("levelid");
 
         listheader = new ArrayList<String>();
         listchild = new HashMap<String, List<String>>();
@@ -91,16 +96,18 @@ public class ConceptScreen extends AppCompatActivity {
 
         one=new MainActivity();
         two=new Main2Activity();
-        three=new SubLevel();
         levelDbHelper=new LevelDbHelper(this);
         mContext=this;
 
         c1=SubLevel.concept1;
         c2=SubLevel.concept2;
         c3=SubLevel.concept3;
+        final int id=levelDbHelper.getcurrlev(one.datavase);
+        lev = levelDbHelper.readSubLevel(one.datavase,id);
+        head2=levelDbHelper.getprev(one.datavase,id);
 
-        listchild.put(listheader.get(0),three.lev);
-        listchild.put(listheader.get(1), three.head2);
+        listchild.put(listheader.get(0),lev);
+        listchild.put(listheader.get(1),head2);
 
         mExpandableListView = (ExpandableListView) findViewById(R.id.navmenu);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -113,6 +120,7 @@ public class ConceptScreen extends AppCompatActivity {
         mActionBarDrawerToggle.syncState();
         navigationView.setItemIconTintList(null);
 
+
         mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id1) {
@@ -124,8 +132,8 @@ public class ConceptScreen extends AppCompatActivity {
                     intent.putExtra("con1",c1.get(childPosition));
                     intent.putExtra("con2",c2.get(childPosition));
                     intent.putExtra("con3",c3.get(childPosition));
-                    intent.putExtra("subname",three.lev.get(childPosition));
-                    intent.putExtra("levelid",sid);
+                    intent.putExtra("subname",lev.get(childPosition));
+                    intent.putExtra("levelid",id);
                     intent.putExtra("lul",lvln);
                     startActivity(intent);
                 }
@@ -135,30 +143,45 @@ public class ConceptScreen extends AppCompatActivity {
                     intent.putExtra("Level1",two.card1.get(childPosition).getlevelnum());
                     intent.putExtra("Levelname",two.card1.get(childPosition).getlevelname());
                     intent.putExtra("img",two.card1.get(childPosition).getimg());
+                    intent.putExtra("prog",two.card1.get(childPosition).geprog());
                     intent.putExtra("id",childPosition+1);
+                    two.recreate();
                     mContext.startActivity(intent);
+
                 }
                 finish();
                 return true;
             }
         });
 
+        mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                if(groupPosition==0 || groupPosition==1)
+                {
+                    mExpandableListView.expandGroup(groupPosition);
+                }
+                else if(groupPosition==6)
+                {
+                    Intent i=new Intent(mContext,settings.class);
+                    startActivity(i);
+                }
+                return true;
+            }
+        });
         vp=findViewById(R.id.vp_question);
         adapter=new SliderFragmentAdapter(getSupportFragmentManager());
         vp.setAdapter(adapter);
 
-
-
         quiztime=(Button)findViewById(R.id.btnQuiz);
-
-
 
         subname = subn;
         lvlname = lvln;
-        levelDbHelper.putsubLevel(one.datavase);
+
+
         subid = levelDbHelper.readSubid(subname,one.datavase);
-        Toast.makeText(this, "test "+subid, Toast.LENGTH_SHORT).show();
-        dh.insertInValues(db);
+        //Toast.makeText(this, "test "+subid, Toast.LENGTH_SHORT).show();
+        //dh.insertInValues(db);
         cnt=dh.readCount(subid,db);
 
 
@@ -167,10 +190,18 @@ public class ConceptScreen extends AppCompatActivity {
         option2=new String[cnt];
         option3=new String[cnt];
 
+        answer=new String[cnt];
+        hint=new String[cnt];
+
+
         question=dh.readQuestion(subid,db);
         option1=dh.readOption1(subid,db);
         option2=dh.readOption2(subid,db);
         option3=dh.readOption3(subid,db);
+
+        answer=dh.readAnswer(subid,db);
+        hint=dh.readHint(subid,db);
+
 
 
         TextView tv1 = (TextView)findViewById(R.id.tv_subname);
@@ -179,6 +210,7 @@ public class ConceptScreen extends AppCompatActivity {
         tv1.setText(subname);
         tv2.setText(lvln);
 
+        levid = levelDbHelper.getlevid(lvln,one.datavase);
 
         if(ConceptScreen.cnt==0)
         {
@@ -189,17 +221,61 @@ public class ConceptScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(ConceptScreen.cnt>0) {
+                    int check = levelDbHelper.getbool(subid,one.datavase);
+                    if(check==0){
+                        int prog =1;
+                        prog = levelDbHelper.getprogress(one.datavase,levid);
+                        int size = lev.size();
+                        switch (size){
+                            //case 2 : levelDbHelper.changeprogress(levid,one.datavase,prog+=25);break;
+                            case 3 : levelDbHelper.changeprogress(levid,one.datavase,prog+=17);break;
+                            //case 4 : levelDbHelper.changeprogress(levid,one.datavase,prog+=10);break;
+                            //case 5 : levelDbHelper.changeprogress(levid,one.datavase,prog+=10);break;
+                            default: levelDbHelper.changeprogress(levid,one.datavase,prog+=(50/size));break;
+
+                        }
+
+                        levelDbHelper.updatebool(subid,one.datavase,1);
+                    }
+
                     Intent i = new Intent(getApplicationContext(), QuestionScreen.class);
                     i.putExtra("subname", subname);
+                    //two.recreate();
                     startActivity(i);
+                    finish();
                 }
                 else
                 {
                     quiztime.findViewById(R.id.btnQuiz);
+                    int check = levelDbHelper.getbool(subid,one.datavase);
+                    if(check==0){
+                        int prog =1;
+                        prog = levelDbHelper.getprogress(one.datavase,levid);
+                        int size = lev.size();
+                        switch (size){
+                            //case 2 : levelDbHelper.changeprogress(levid,one.datavase,prog+=50);break;
+                            case 3 : levelDbHelper.changeprogress(levid,one.datavase,prog+=32);break;
+                            //case 4 : levelDbHelper.changeprogress(levid,one.datavase,prog+=25);break;
+                            //case 5 : levelDbHelper.changeprogress(levid,one.datavase,prog+=20);break;
+                            default: levelDbHelper.changeprogress(levid,one.datavase,prog+=(100/size));break;
+                        }
+                        if(prog>95){
+                            levelDbHelper.changeprogress(levid,one.datavase,prog=100);
+                        }
+
+                    }
+                    levelDbHelper.updatebool(subid,one.datavase,1);
                     //quiztime.setText("Next");
                     Intent intent1 = new Intent(ConceptScreen.this, SubLevel.class);
-                    intent1.putExtra("id",sid);
+                    intent1.putExtra("Level1",two.card1.get(levid).getlevelnum());
+                    intent1.putExtra("Levelname",two.card1.get(levid).getlevelname());
+                    intent1.putExtra("img",two.card1.get(levid).getimg());
+                    intent1.putExtra("prog",two.card1.get(levid).geprog());
+                    intent1.putExtra("id",levid);
+                    //two.recreate();
                     startActivity(intent1);
+
+                    finish();
                 }
             }
         });
@@ -212,16 +288,33 @@ public class ConceptScreen extends AppCompatActivity {
         }
         setSupportActionBar(custom_toolbar);
     }
+    @Override
+    public void onBackPressed(){
+        Intent intent1 = new Intent(ConceptScreen.this, SubLevel.class);
+        intent1.putExtra("Level1",two.card1.get(levid).getlevelnum());
+        intent1.putExtra("Levelname",two.card1.get(levid).getlevelname());
+        intent1.putExtra("img",two.card1.get(levid).getimg());
+        intent1.putExtra("prog",two.card1.get(levid).geprog());
+        intent1.putExtra("id",levid);
+        //two.recreate();
+        startActivity(intent1);
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.onerflow_menu, menu);
+        ImageeAdapter imageeAdapter=new ImageeAdapter(this);
+        menu.findItem(R.id.avatar).setIcon(imageeAdapter.image_id2[one.avid]);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i=new Intent(ConceptScreen.this,IdScreen.class);
+        startActivity(i);
         return super.onOptionsItemSelected(item);
     }
 }

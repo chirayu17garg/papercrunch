@@ -1,7 +1,9 @@
 package com.example.deerg.papercrunch;
 
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,7 @@ public class CodedBefore extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(CodedBefore.this,Main2Activity.class);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -29,7 +32,13 @@ public class CodedBefore extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i=new Intent(CodedBefore.this,WhatisCode.class);
                 startActivity(i);
+                finish();
             }
         });
+
+        SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("coded", 1);
+        editor.commit();
     }
 }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "808932648952",
+    "firebase_url": "https://papercrunch-1561025855062.firebaseio.com",
+    "project_id": "papercrunch-1561025855062",
+    "storage_bucket": "papercrunch-1561025855062.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808932648952:android:d99ae5af3ab45b47",
+        "android_client_info": {
+          "package_name": "com.example.deerg.papercrunch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808932648952-6njunng0k4njsa9i1601tstq945p952h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.deerg.papercrunch",
+            "certificate_hash": "9e998190565840828faac25cfee0bc5e928ed12d"
+          }
+        },
+        {
+          "client_id": "808932648952-v3ar23putuft14hufofjjbunht9n8ekt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5mtZxm-rpEOuP3earf6HTE-Eo-_scUTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808932648952-v3ar23putuft14hufofjjbunht9n8ekt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

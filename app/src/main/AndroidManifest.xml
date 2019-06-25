@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.deerg.papercrunch">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,12 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CodedBefore">
-
-        </activity>
-        <activity android:name=".WhatisCode">
-
-        </activity>
+        <activity android:name=".PopupActivityJ"
+            android:theme="@style/AppTheme.PopMe"></activity>
+        <activity android:name=".IdScreen" />
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@style/AppTheme.PopMe" />
+        <activity
+            android:name=".Ans_Popup"
+            android:theme="@style/AppTheme.PopMe" />
+        <activity android:name=".settings" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".GoogleSign" />
+        <activity android:name=".Registeration" />
+        <activity android:name=".CodedBefore" />
+        <activity android:name=".WhatisCode" />
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
@@ -24,21 +37,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity">
-
-        </activity>
-        <activity android:name=".SubLevel">
-
-
-        </activity>
-        <activity android:name=".QuestionScreen">
-
-        </activity>
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".SubLevel" />
+        <activity android:name=".QuestionScreen" />
         <activity android:name=".ConceptScreen" />
-        <activity android:name=".login">
-
-
-        </activity>
+        <activity android:name=".login" />
     </application>
 
 </manifest>

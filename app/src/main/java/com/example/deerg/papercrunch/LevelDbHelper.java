@@ -1,5 +1,6 @@
 package com.example.deerg.papercrunch;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +11,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class LevelDbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME="level_db";
@@ -17,12 +20,12 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION= 1;
 
     public static final String CREATE_TABLE="create table level (level_id integer primary key,level_num text,level_name text ,progress integer,image integer)";
-    public static final String CREATE_TABLE3="create table sublevel1 (level_id integer primary key,sublevel1_name text , sublevel2_name text , sublevel3_name text , sublevel4_name text)";
     public static final String CREATE_TABLE2="create table sublevel (sub_level_id integer primary key,sublevel_name text,concept1 text,concept2 text,concept3 text,level_id integer)";
+    public static final String CREATE_TABLE3="create table subbool (sub_level_id integer primary key,sub_status integer,current_level integer)";
 
     public static final String DROP_TABLE ="drop table if exists level ";
     public static final String DROP_TABLE2 ="drop table if exists sublevel ";
-    public static final String DROP_TABLE3 ="drop table if exists sublevel1 ";
+    public static final String DROP_TABLE3 ="drop table if exists subbool ";
 
     public LevelDbHelper(Context context)
     {
@@ -39,23 +42,23 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE3);
         putLevel(db);
         putsubLevel(db);
-        changeprogress(1,db,60);
+        putsubbool(db);
         Log.d("Databaase Op","Table created");
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db=this.getWritableDatabase();
+        //db=this.getWritableDatabase();
         db.execSQL(DROP_TABLE);
         db.execSQL(DROP_TABLE2);
         db.execSQL(DROP_TABLE3);
         onCreate(db);
+        db.close();
     }
 
     public void checktable(SQLiteDatabase db){
 
-        db=this.getReadableDatabase();
+        db=this.getWritableDatabase();
         Cursor cursor = db.rawQuery("select * from sqlite_master", null);
         if(cursor.getCount()==0) {
             onCreate(db);
@@ -63,7 +66,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     }
 
     public void addLevel(int id,String levelnum,String level,int progress,int img,SQLiteDatabase db){
-        db= this.getWritableDatabase();
+        //db= this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("level_id",id);
         contentValues.put("level_name",level);
@@ -78,7 +81,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     public List<String> readLevelprog(SQLiteDatabase db)
     {
         List<String> lvl=new ArrayList<String>();
-        db= this.getReadableDatabase();
+        //db= this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from level ",null);
         cursor.moveToFirst();
         //int cnt=0;
@@ -95,6 +98,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         db=this.getReadableDatabase();
         String level = Integer.toString(id);
         Cursor cursor = db.rawQuery("select progress from level where level_id= ?",new String[]{level});
+        cursor.moveToFirst();
         prog=cursor.getInt(cursor.getColumnIndex("progress"));
         return prog;
     }
@@ -109,12 +113,20 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         String lvlnum;
         int prog;
         int img;
+        int back;
+
         lvlname = cursor.getString(cursor.getColumnIndex("level_name"));
         lvlnum = cursor.getString(cursor.getColumnIndex("level_num"));
         prog = cursor.getInt(cursor.getColumnIndex("progress"));
         img = cursor.getInt(cursor.getColumnIndex("image"));
+        int curr =1;
+        curr = getcurrlev(db);
+        if(curr==id){
+            back =R.drawable.current;
+        }
+        else{back = R.drawable.card;}
 
-        return new CardData(lvlnum,lvlname,prog,img,id);
+        return new CardData(lvlnum,lvlname,prog,img,id,back);
     }
 
     public void changeprogress(int id,SQLiteDatabase db,int prog){
@@ -125,16 +137,16 @@ public class LevelDbHelper extends SQLiteOpenHelper {
     }
 
     public void putLevel(SQLiteDatabase db){
-        db= this.getWritableDatabase();
-        addLevel(1,"Level 1","Introduction",50,R.drawable.ic_content_paste_black_24dp,db);
-        addLevel(2,"Level 2","Data Types and Variables",50,R.drawable.ic_date_range_black_24dp,db);
-        addLevel(3,"Level 3","Operators",50,R.drawable.ic_developer_mode_black_24dp,db);
-        addLevel(4,"Level 4","Input/Output",50,R.drawable.ic_input_black_24dp,db);
-        addLevel(5,"Level 5","Logical Operators",50,R.drawable.logic,db);
-        addLevel(6,"Level 6","Conditional Statements",50,R.drawable.ic_swap_horiz_black_24dp,db);
-        addLevel(7,"Level 7","Loops",50,R.drawable.ic_loop_black_24dp,db);
-        addLevel(8,"Level 8","Functions",50,R.drawable.ic_functions_black_24dp,db);
-        addLevel(9,"Level 9","Arrays and Strings",50,R.drawable.ic_view_array_black_24dp,db);
+        //db= this.getWritableDatabase();
+        addLevel(1,"Level 1","Introduction",0,R.drawable.ic_content_paste_black_24dp,db);
+        addLevel(2,"Level 2","Data Types and Variables",0,R.drawable.ic_date_range_black_24dp,db);
+        addLevel(3,"Level 3","Operators",0,R.drawable.ic_developer_mode_black_24dp,db);
+        addLevel(4,"Level 4","Input/Output",0,R.drawable.ic_input_black_24dp,db);
+        addLevel(5,"Level 5","Logical Operators",0,R.drawable.logic,db);
+        addLevel(6,"Level 6","Conditional Statements",0,R.drawable.ic_swap_horiz_black_24dp,db);
+        addLevel(7,"Level 7","Loops",0,R.drawable.ic_loop_black_24dp,db);
+        addLevel(8,"Level 8","Functions",0,R.drawable.ic_functions_black_24dp,db);
+        addLevel(9,"Level 9","Arrays and Strings",0,R.drawable.ic_view_array_black_24dp,db);
     }
 
 
@@ -153,48 +165,95 @@ public class LevelDbHelper extends SQLiteOpenHelper {
         return lev;
     }
 
-    public void addsubLevel1(int id,String sublevel1,String sublevel2,String sublevel3,String sublevel4,SQLiteDatabase db){
-        db= this.getWritableDatabase();
+    public void addsubbool(int id,int status,int currlev,SQLiteDatabase db){
+        //db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("level_id",id);
-        contentValues.put("sublevel1_name",sublevel1);
-        contentValues.put("sublevel2_name",sublevel2);
-        contentValues.put("sublevel3_name",sublevel3);
-        contentValues.put("sublevel4_name",sublevel4);
+        contentValues.put("sub_level_id",id);
+        contentValues.put("sub_status",status);
+        contentValues.put("current_level",currlev);
+        db.insert("subbool",null,contentValues);
+    }
+    public void putsubbool(SQLiteDatabase db){
+        addsubbool(1,0,1,db);
+        addsubbool(2,0,1,db);
+        addsubbool(3,0,1,db);
+        addsubbool(4,0,1,db);
+        addsubbool(5,0,1,db);
+        addsubbool(6,0,1,db);
+        addsubbool(7,0,1,db);
+        addsubbool(8,0,1,db);
+        addsubbool(9,0,1,db);
+        addsubbool(10,0,1,db);
+        addsubbool(11,0,1,db);
+        addsubbool(12,0,1,db);
+        addsubbool(13,0,1,db);
+        addsubbool(14,0,1,db);
+        addsubbool(15,0,1,db);
+        addsubbool(16,0,1,db);
+        addsubbool(17,0,1,db);
+        addsubbool(18,0,1,db);
+        addsubbool(19,0,1,db);
+        addsubbool(20,0,1,db);
+        addsubbool(21,0,1,db);
+        addsubbool(22,0,1,db);
+        addsubbool(23,0,1,db);
+        addsubbool(24,0,1,db);
+        addsubbool(25,0,1,db);
+        addsubbool(26,0,1,db);
+        addsubbool(27,0,1,db);
 
-        db.insert("sublevel",null,contentValues);
+
+
+
+
+
 
     }
-    public List readSubLevel1(SQLiteDatabase db, int id){
-        List lev =new ArrayList();
-        db= this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from sublevel1 ",null);
-        cursor.moveToPosition(id-1);
-        lev.add(cursor.getString(cursor.getColumnIndex("sublevel1_name")));
-        lev.add(cursor.getString(cursor.getColumnIndex("sublevel2_name")));
-        if(cursor.getString(cursor.getColumnIndex("sublevel3_name"))!=null)
-        lev.add(cursor.getString(cursor.getColumnIndex("sublevel3_name")));
-        if(cursor.getString(cursor.getColumnIndex("sublevel4_name"))!=null)
-        lev.add(cursor.getString(cursor.getColumnIndex("sublevel4_name")));
+
+    public int getlevid(String lvlname,SQLiteDatabase db){
+        int id;
+        db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select level_id from level where level_name=?",new String[]{lvlname});
+        cursor.moveToFirst();
+        id = cursor.getInt(cursor.getColumnIndex("level_id"));
+        return id;
+    }
+
+    public int getbool(int id,SQLiteDatabase db){
+        int bool;
+
+        db=this.getReadableDatabase();
+        String level = Integer.toString(id);
+        Cursor cursor = db.rawQuery("select sub_status from subbool where sub_level_id= ?",new String[]{level});
+        cursor.moveToFirst();
+        bool=cursor.getInt(cursor.getColumnIndex("sub_status"));
+
+        return bool;
+    }
+    public void updatebool(int id,SQLiteDatabase db,int bool){
+        String sublevel=Integer.toString(id);
+        String boole =Integer.toString(bool);
+        db=this.getWritableDatabase();
+        db.execSQL("update subbool set sub_status = ? where sub_level_id =  ? ",new String[]{boole,sublevel});
+
+    }
+    public int getcurrlev(SQLiteDatabase db){
+        int lev;
+        db=this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select current_level from subbool",null);
+        cursor.moveToFirst();
+        lev=cursor.getInt(cursor.getColumnIndex("current_level"));
         return lev;
     }
-    public void putsubLevel1(SQLiteDatabase db){
-        db = this.getWritableDatabase();
-        addsubLevel1(1,"What is Programming?","What is C?","Syntax","First Programme",db);
-        addsubLevel1(2,"What are Data Types?","What are Variables?","Data Types in C",null,db);
-        addsubLevel1(3,"What are Operators?","Operators in C",null,null,db);
-        addsubLevel1(4,"Input and Output","scanf()",null,null,db);
-        addsubLevel1(5,"Relational Operators","Logical Operators",null,null  ,db);
-        addsubLevel1(6,"Conditional Statements","Logical if","Logical else","Logical elseif",db);
-        addsubLevel1(7,"What is looping?","for function","while function","switch function",db);
-        addsubLevel1(8,"What are functions?","Parameters and return types","Writing your own function",null,db);
-        addsubLevel1(9,"What is an array?","Arrays","Strings - A special array",null,db);
-
+    public void updatecurrlev(SQLiteDatabase db,int bool){
+        String boole = Integer.toString(bool);
+        db=this.getWritableDatabase();
+        db.execSQL("update subbool set current_level=?",new String[]{boole});
     }
 
-
     public void addsubLevel(int id,String sublevel1,String concept1,String concept2,String concept3,int level_id,SQLiteDatabase db){
-        db= this.getWritableDatabase();
+//        db= this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("sub_level_id",id);
         contentValues.put("sublevel_name",sublevel1);
@@ -277,7 +336,7 @@ public class LevelDbHelper extends SQLiteOpenHelper {
 
 
     public void putsubLevel(SQLiteDatabase db){
-        db = this.getWritableDatabase();
+        //db = this.getWritableDatabase();
         addsubLevel(1,"What is Programming?","We all have heard about Computer Programming gaining a lot of popularity in the past 3 decades. " +
                 "But what is programming? Programming is simply a way to \"instruct the computer to perform various tasks\".","This basically means that you " +
                 "provide the computer a set of instructions that are written in a language that the computer can understand.","Just like we humans can understand" +

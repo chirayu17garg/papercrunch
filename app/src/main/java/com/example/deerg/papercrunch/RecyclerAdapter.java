@@ -1,5 +1,6 @@
 package com.example.deerg.papercrunch;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -33,24 +34,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LevelViewHolder levelViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final LevelViewHolder levelViewHolder, final int i) {
         levelViewHolder.mImage.setImageResource(cardDataList.get(i).getimg());
         levelViewHolder.mlevelnum.setText(cardDataList.get(i).getlevelnum());
         levelViewHolder.mlevelnam.setText(cardDataList.get(i).getlevelname());
         levelViewHolder.mprog.setText(Integer.toString(cardDataList.get(i).geprog()));
-        //one.datavase = levelDbHelper.getWritableDatabase();
+        levelViewHolder.levback.setImageResource(cardDataList.get(i).getbackid());
 
-        //one=new MainActivity();
-
-        //levelDbHelper.putsubLevel(one.datavase);
-
-        //levelDbHelper.onUpgrade(one.datavase, 1, 1);
-        //levelDbHelper.putLevel(one.datavase);
-        //List asd = levelDbHelper.readLevelprog(one.datavase);
-        //levelViewHolder.mprog.setText(asd.get(i).toString());
        levelViewHolder.carview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                levelDbHelper=new LevelDbHelper(mContext);
+                one =new MainActivity();
+                levelDbHelper.updatecurrlev(one.datavase,i+1);
                 Intent intent = new Intent(mContext,SubLevel.class);
                 intent.putExtra("Level1",cardDataList.get(i).getlevelnum());
                 intent.putExtra("Levelname",cardDataList.get(i).getlevelname());
@@ -58,6 +54,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelV
                 intent.putExtra("id",cardDataList.get(i).getid());
                 intent.putExtra("prog",cardDataList.get(i).geprog());
                 mContext.startActivity(intent);
+                ((Activity)mContext).finish();
+                //((Activity)mContext).recreate();
             }
         });
 
@@ -76,6 +74,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelV
         TextView mlevelnam;
         CardView carview;
         TextView mprog;
+        ImageView levback;
         public LevelViewHolder(@NonNull View itemView) {
             super(itemView);
             carview = itemView.findViewById(R.id.carview);
@@ -83,6 +82,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelV
             mlevelnam = itemView.findViewById(R.id.textlvl1);
             mlevelnum = itemView.findViewById(R.id.textcard1);
             mprog = itemView.findViewById(R.id.prog);
+            levback = itemView.findViewById(R.id.background);
 
         }
     }
