@@ -1,145 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Registeration">
+    android:background="@color/colorAccent">
+
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="410dp"
-        android:layout_height="68dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo1" />
-
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="370dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="33dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        android:ems="10"
-        android:hint="Enter Name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="371dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="22dp"
-        android:layout_marginRight="22dp"
-        android:ems="10"
-        android:hint="Enter Mobile Number"
-        android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
-
-    <EditText
-        android:id="@+id/editText9"
-        android:layout_width="376dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginRight="19dp"
-        android:ems="10"
-        android:hint="Enter Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        android:layout_width="248dp"
+        android:layout_height="62dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="0dp"
+        app:srcCompat="@drawable/papercrunchh" />
 
     <TextView
-        android:id="@+id/textView12"
-        android:layout_width="293dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="103dp"
-        android:layout_marginRight="103dp"
-        android:text="Passwords must be at least 6 characters "
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText10" />
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="80dp"
+        android:text="Create account.New to PAPERCRUNCH?"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+    <EditText
+        android:id="@+id/email_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="10dp"
+        android:ems="10"
+        android:hint="@string/email_2"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/fname_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="190dp"
+        android:ems="10"
+        android:hint="@string/first_2"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/lname_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="260dp"
+        android:ems="10"
+        android:hint="@string/last_2"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/mno_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="330dp"
+        android:ems="10"
+        android:hint="@string/mobile_1"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/pass_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="400dp"
+        android:ems="10"
+        android:hint="@string/password_1"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="450dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Passwords must be atleast 6 characters" />
 
     <RadioButton
         android:id="@+id/radioButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="260dp"
-        android:layout_marginRight="260dp"
-        android:text="Show password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="480dp"
+        android:text="Show Password" />
 
     <Button
         android:id="@+id/button8"
-        android:layout_width="303dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="49dp"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="97dp"
-        android:layout_marginEnd="59dp"
-        android:layout_marginRight="59dp"
-        android:layout_marginBottom="72dp"
-        android:background="@color/colorPrimary"
-        android:text="CREATE ACCOUNT"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioButton" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="336dp"
-        android:layout_marginRight="336dp"
-        android:text="Create account.New to PAPERCRUNCH? "
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="570dp"
+        android:background="@color/colorPrimary"
+        android:onClick="@string/create_task"
+        android:text="CREATE ACCOUNT" />
 
-    <EditText
-        android:id="@+id/editText10"
-        android:layout_width="377dp"
-        android:layout_height="51dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText9" />
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
+

@@ -1,15 +1,29 @@
 package com.example.deerg.papercrunch;
 
 
+import java.util.List;
+
 public class Post {
 
-    private String name;
+    private String token;
     private int currentLevel;
-    private int totalstars;
-    private int levelprogress[];
+    private int totalStars;
+    private int ID;
+    private List<Integer> levelprogress;
+    private String fname;
+    private String lname;
+    private int pno;
 
-    public String getName() {
-        return name;
+    public int getPno() {
+        return pno;
+    }
+
+    public Post(){
+
+    }
+
+    public String getToken() {
+        return token;
     }
 
     public int getCurrentLevel() {
@@ -17,10 +31,22 @@ public class Post {
     }
 
     public int getTotalstars() {
-        return totalstars;
+        return totalStars;
     }
 
-    public int[] getLevelprogress() {
+    public int getID() {
+        return ID;
+    }
+
+    public List<Integer> getLevelprogress() {
         return levelprogress;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public String getLname() {
+        return lname;
     }
 }

@@ -9,6 +9,7 @@ import android.util.Log;
 public class DataDbHelper extends SQLiteOpenHelper {
 
 
+
     public static final String DbName="LEVEL";
     public static final int DbVersion=1;
     public static final String CREATE_TABLE="create table quiz" +
@@ -295,6 +296,36 @@ public class DataDbHelper extends SQLiteOpenHelper {
         }
         return arr;
     }
+
+    public int getQid(int subid, int index, SQLiteDatabase db)
+    {
+        int sum =0;
+        for(int i=1;i<subid;i++)
+        {
+            sum=sum+readCount(i,db);
+        }
+        sum=sum+index+1;
+        return sum;
+    }
+    public void updateStars(int qid,int tries,SQLiteDatabase db)
+    {
+        db=this.getWritableDatabase();
+        int stars=3-tries;
+        if(stars<1)
+            stars=1;
+
+        db.rawQuery("UPDATE Quiz SET stars="+stars+" WHERE id="+qid,null);
+    }
+    public int getStars(SQLiteDatabase db)
+    {
+        db=this.getReadableDatabase();
+        Cursor cursor=db.rawQuery("SELECT SUM(stars) AS sum from Quiz",null);
+        int stars=0;
+        if(cursor.moveToFirst())
+            stars=cursor.getInt(cursor.getColumnIndex("sum"));
+        return stars;
+    }
+
 
 
 }

@@ -2,6 +2,7 @@ package com.example.deerg.papercrunch;
 
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -32,6 +33,9 @@ public class Ans_Popup extends AppCompatActivity {
     public static int tries=0;
     MainActivity one;
     LevelDbHelper levelDbHelper;
+    DataDbHelper dh=new DataDbHelper(this);
+    SQLiteDatabase db;
+
     private ImageView iv;
 
     @Override
@@ -71,7 +75,11 @@ public class Ans_Popup extends AppCompatActivity {
         {
             tv1.setText("Yay That's Correct!!");
             tv2.setVisibility(View.INVISIBLE);
-            //store stars in database remaining
+            //stored stars
+
+            int qid=dh.getQid(ConceptScreen.subid,QuetionFragmentAdapter.index,db);
+            dh.updateStars(qid,tries,db);
+
             if(tries==0)
             {
                 iv1.setVisibility(View.VISIBLE);

@@ -17,9 +17,12 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase datavase;
     LevelDbHelper levelDbHelper;
     DataDbHelper dataDbHelper;
-    int totalstars;
-    String username;
+    public static int totalstars;
+    public static String token;
     public static int avid;
+    public static String fname;
+    public static String lname;
+    public static int pno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

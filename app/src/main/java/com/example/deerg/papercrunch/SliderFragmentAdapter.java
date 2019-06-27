@@ -15,6 +15,7 @@ public class SliderFragmentAdapter extends FragmentPagerAdapter {
         ConceptFragment frag =new ConceptFragment();
         Bundle bundle=new Bundle();
         i=i+1;
+        bundle.putInt("coni",i);
         if(i==1)
             bundle.putString("msg",ConceptScreen.concept1);
         else if (i==2)
