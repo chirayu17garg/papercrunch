@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.example.deerg.papercrunch.ConceptScreen.levid;
+import static com.example.deerg.papercrunch.Main2Activity.card1;
+
 public class QuestionScreen extends AppCompatActivity {
 
     MainActivity one;
@@ -174,6 +177,21 @@ public class QuestionScreen extends AppCompatActivity {
         Intent i=new Intent(this,IdScreen.class);
         startActivity(i);
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed(){
+        if(levid==9){
+            levid--;
+        }
+        Intent intent = new Intent(getApplicationContext(),SubLevel.class);
+        intent.putExtra("Level1",card1.get(levid).getlevelnum());
+        intent.putExtra("Levelname",card1.get(levid).getlevelname());
+        intent.putExtra("img",card1.get(levid).getimg());
+        intent.putExtra("prog",card1.get(levid).geprog());
+        intent.putExtra("id",levid);
+        startActivity(intent);
+        finish();
+
     }
 }
 

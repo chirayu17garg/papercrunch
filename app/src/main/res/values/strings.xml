@@ -22,5 +22,6 @@
     <string name="email_2">Email(Username)</string>
     <string name="first_2">first name</string>
     <string name="last_2">last name</string>
+    <string name="GO_1">Go</string>
 
 </resources>

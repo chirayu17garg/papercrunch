@@ -25,6 +25,7 @@
 
     <style name="AppTheme.PopMe" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
 

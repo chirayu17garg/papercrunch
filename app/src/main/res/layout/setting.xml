@@ -44,6 +44,16 @@
         android:id="@+id/bug"
         android:textSize="20dp"/>
 
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="About Us"
+        android:padding="15dp"
+        android:id="@+id/aboutus"
+        android:textSize="20dp"/>
+
 
     <TextView
         android:layout_marginTop="10dp"
@@ -52,6 +62,16 @@
         android:text="Reset All Progress"
         android:padding="15dp"
         android:id="@+id/reset"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change Password"
+        android:padding="15dp"
+        android:id="@+id/changepass"
         android:textSize="20dp"
         android:textStyle="bold"/>
 

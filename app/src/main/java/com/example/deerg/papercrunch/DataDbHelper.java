@@ -168,8 +168,8 @@ public class DataDbHelper extends SQLiteOpenHelper {
                 "5 5","The loop will continue till i is less than 5 and j is less than 10. In simpler terms, it will continue till i is less than 5. So the soln. is '5 5'",0,21,db);
 
         addData(27,"What is the output?\n#include <stdio.h>\nint main()\n{\nint loop=10;\nwhile(printf(\"Hello \") && loop--);\n}\nint tally;\nfor(tally=100;tally != 98 ;--tally)\n{\nprintf(tally);\n}\n}",
-                "Hello Hello Hello Hello ... (Infinite times)","Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello (10 times)","Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello (11 times)",
-                "Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello (10 times)","The value returned by printf(\"Hello\") is always true. So the loop will be executed will the second argument becomes 0('false'). Remember that '--' is written after the operand, implying that the value stored in the variable would be used first and then updated.",0,21,db);
+                "Hello Hello Hello Hello ... (Infinite times)","Hello Hello Hello Hello Hello Hello Hello Hello... (10 times)","Hello Hello Hello Hello Hello Hello Hello....(11 times)",
+                "Hello Hello Hello Hello Hello Hello Hello Hello... (10 times)","The value returned by printf(\"Hello\") is always true. So the loop will be executed will the second argument becomes 0('false'). Remember that '--' is written after the operand, implying that the value stored in the variable would be used first and then updated.",0,21,db);
 
         addData(28,"What is the output?\n#include <stdio.h>\nvoid main()\n{\nint cnt=1;\ndo\n{\nprintf(\"%d,\",cnt);\ncnt+=1;\n}\nwhile(cnt>=10);\nprintf(\"\\nAfter loop cnt=%d\",cnt);\n}",
                 "After loop cnt=1","1\nAfter loop cnt=2","After loop cnt=2",
@@ -183,7 +183,33 @@ public class DataDbHelper extends SQLiteOpenHelper {
                 "True","False","Can't say",
                 "False","Functions cannot return multiple values.",0,24,db);
 
+        addData(31,"What is the output of this?\n#include<stdio.h>\nint add(int x, int y){\nint sum = x + y;\nreturn sum;\n}\nint main(){\nint num1 = 10;\nint num2 = 5;\nprintf(\"The sum of %d and %d is %d\", num1, num2, add(10,5));\nreturn 0;\n}",
+                "The sum of 10 and 5 is 15","Error","The sum of 10 and 5 is 1015",
+                "The sum of 10 and 5 is 15","The main function calls add, passing the values 10 and 5. 'Add' returns the sum of the two values.",0,24,db);
 
+        addData(32,"What will be the output?\n#include <stdio.h>\nint main() {\nint array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};\nint loop;\nfor(loop = 9; loop >= 0; loop--)\nprintf(\"%d \", array[loop]);\nreturn 0;\n}",
+                "0 1 2 3 4 5 6 7 8 9","9 8 7 6 5 4 3 2 1 0","0 9 8 7 6 5 4 3 2 1",
+                "0 9 8 7 6 5 4 3 2 1","The for loop will start printing from the last index of the array(9) and continue printing till the first element is printed(index 0).",0,26,db);
+
+        addData(33,"What will be the output?\n#include <stdio.h>\nint main() {\nint array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};\nint loop, largest;\nlargest = array[0];\nfor(loop = 1; loop < 10; loop++) {\nif( largest < array[loop] )\nlargest = array[loop];\n}\nprintf(largest);\nreturn 0;\n}",
+                "9","8","0",
+                "9","As we loop through the array, we compare the value of the array at that index with the largest value till then. If the value to the array at that point is greater than the largest value, it is stored in that variable.",0,26,db);
+
+        addData(34,"The data type of a variable can be converted to another using type cast operators. This is done by mentioning the data type you want the variable to convert to in paranthesis and then variable name.a=2; double b=(double)a; would change the value of a from 2 to 2.0 and save it in b\nWith this in mind, what will be the output of this code?\nint array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};\nint sum, loop;\nfloat avg;\nsum = avg = 0;\nfor(loop = 0; loop < 10; loop++) {\nsum = sum + array[loop];\n}\navg = (float)sum / loop;   //(float converts the data type of sum to float)\nprintf(avg);\n",
+                "2.50","3.50","4.50",
+                "4.50","Soln. As we loop across the array, we keep on adding the value stored in the array at that index to a variable sum. Dividing this with the length of the array will give us the average of all values. If we don't use 'float', then the value stored in avg would be the integer part of average.",0,26,db);
+
+        addData(35,"What will be the output?\nchar str[] = \"Hello World\";\nprintf(\"%s\\n\", str);",
+                "Hello World","H","Hello",
+                "Hello World","The whole string is printed when we use the name of the string.",0,27,db);
+
+        addData(36,"What will be the output?\nchar s1[] = \"TajMahal\";\nint i = 0;\nwhile(s1[i] != '\\0') {\ni++;\n}\nprintf(\"Length of string '%s' is %d\", s1, i);",
+                "Length of string TajMahal is 9","Length of string TajMahal is 8","Error",
+                "Length of string TajMahal is 8","The while loop kept on incrementing the value of i till we encounter a '\\0', i.e. the end of the string. This would give us the length of the string, which is 8 in this case.",0,27,db);
+
+        addData(37,"What will be the output?\nchar s[] = \"TajMahal\";\nint i = 0;\nint vowels = 0;\nint consonants = 0;\nwhile(s[i++] != '\\0') {\nif(s[i] == 'a' || s[i] == 'e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' )\nconsonants++;\nelse\nvowels++;\n}\nprintf(\"'%s' contains %d vowels and %d consonants.\", s, vowels, consonants);",
+                "'TajMahal' contains 3 vowels and 5 consonants","'TajMahal' contains 5 vowels and 3 consonants","Error",
+                "'TajMahal' contains 5 vowels and 3 consonants","While we are looping through the string, we are incrementig the value of constants variable if we encounter a vowel and vice versa. Hence, the answer would be 5 vowels and 3 consonants.",0,27,db);
     }
 
 
@@ -314,7 +340,7 @@ public class DataDbHelper extends SQLiteOpenHelper {
         if(stars<1)
             stars=1;
 
-        db.rawQuery("UPDATE Quiz SET stars="+stars+" WHERE id="+qid,null);
+        db.execSQL("update Quiz set stars = ? where id =  ? ",new String[]{Integer.toString(stars),Integer.toString(qid)});
     }
     public int getStars(SQLiteDatabase db)
     {

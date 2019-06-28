@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -47,6 +48,14 @@ public class IdScreen extends AppCompatActivity {
     ImageButton avatar;
     ImageeAdapter imageeAdapter;
     int pos;
+    DataDbHelper dh1=new DataDbHelper(this);
+   // LevelDbHelper dh2= new LevelDbHelper(this);
+    SQLiteDatabase db;
+    //SQLiteDatabase db2;
+  public static int stars1;
+    int x;
+   int progress1=0;
+    // progress1=dh2.getprogress(db2,x);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +72,8 @@ public class IdScreen extends AppCompatActivity {
 
         setuptoolbar();
 
+        stars1=dh1.getStars(db);
+        Toast.makeText(this, "test"+stars1, Toast.LENGTH_SHORT).show();
         two=new Main2Activity();
         LevelDbHelper levelDbHelper = new LevelDbHelper(this);
 

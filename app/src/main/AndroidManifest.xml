@@ -13,8 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PopupActivityJ"
-            android:theme="@style/AppTheme.PopMe"></activity>
+        <activity android:name=".ChangePassword"></activity>
+        <activity android:name=".Forgot" />
+        <activity
+            android:name=".PopupActivityJ"
+            android:theme="@style/AppTheme.PopMe" />
         <activity android:name=".IdScreen" />
         <activity
             android:name=".PopupActivity"

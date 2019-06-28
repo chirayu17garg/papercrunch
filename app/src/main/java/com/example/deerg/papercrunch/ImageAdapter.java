@@ -11,7 +11,11 @@ public class ImageAdapter extends BaseAdapter {
     public Integer i=0;
     private Context CTX;
 
-    public static int star,progress;
+    IdScreen is=new IdScreen();
+    //int star=is.stars1;
+    //int progress=is.progress1;
+    int progress=12;
+
 
     private Integer image_id[] = {R.drawable.medal,R.drawable.medal2,R.drawable.medal3,R.drawable.medal4,R.drawable.medal5,R.drawable.medal6,R.drawable.medal7,R.drawable.medal8,R.drawable.medal9,R.drawable.medal10,R.drawable.medal11,R.drawable.medal12,R.drawable.medal13,R.drawable.medal14,R.drawable.medal15};
     public ImageAdapter(Context CTX){
@@ -44,7 +48,7 @@ public class ImageAdapter extends BaseAdapter {
         else {
             img=(ImageView) convertView;
         }
-        if(position<=star/12&&position%2==0&&star>=12) {
+        if(position<=is.stars1/12&&position%2==0&&is.stars1>=12) {
             img.setImageResource(image_id[position]);
             img.setVisibility(View.VISIBLE);
             return img;

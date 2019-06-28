@@ -1,13 +1,16 @@
 package com.example.deerg.papercrunch;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,10 +21,18 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class settings extends AppCompatActivity {
 
@@ -39,6 +50,8 @@ public class settings extends AppCompatActivity {
     public static List<String> c1,c2,c3;
     public static List<String> lev;
     public static List<String> head2;
+    TextView reset,logout,changepass;
+    login tt;
 
 
     @Override
@@ -49,7 +62,7 @@ public class settings extends AppCompatActivity {
 
         one=new MainActivity();
         two=new Main2Activity();
-        LevelDbHelper levelDbHelper = new LevelDbHelper(this);
+        final LevelDbHelper levelDbHelper = new LevelDbHelper(this);
 
         listheader = new ArrayList<String>();
         listchild = new HashMap<String, List<String>>();
@@ -135,6 +148,165 @@ public class settings extends AppCompatActivity {
                     startActivity(i);
                 }
                 return true;
+            }
+        });
+        SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sp.edit();
+        final String token = sp.getString("token", "");
+        final int totalStars=sp.getInt("totalstars",0);
+        final String email=sp.getString("email", "");
+
+        reset=(TextView)findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                levelDbHelper.updatecurrlev(one.datavase,1);
+                editor.putInt("totalstars",0);
+                for(int i=0;i<9;i++)
+                    levelDbHelper.changeprogress(i+1,one.datavase,0);
+                for(int i=0;i<27;i++)
+                    levelDbHelper.updatebool(i+1,one.datavase,0);
+                Toast.makeText(settings.this,"Reset Successful",Toast.LENGTH_SHORT).show();
+
+                final Retrofit retrofit=new Retrofit.Builder()
+                        .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                final getdataApi gda=retrofit.create(getdataApi.class);
+
+                SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                final String token=sp.getString("token","");
+                Toast.makeText(settings.this,token,Toast.LENGTH_SHORT).show();
+                DataDbHelper dataDbHelper=new DataDbHelper(settings.this);
+                editor.putInt("totalstars",0);
+                levelDbHelper.updatecurrlev(one.datavase,1);
+                Call<Void> call=gda.sync(levelDbHelper.getcurrlev(one.datavase),dataDbHelper.getStars(one.datavase),sp.getInt("id_avatar", 0),"Token "+token);
+
+                call.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (!response.isSuccessful()) {
+                            Log.d("Code: " + response.code(), "lol");
+                            Toast.makeText(settings.this, "Failed Please try again!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.d("failed: ", t.getMessage());
+                        Toast.makeText(settings.this,"Failed Please try again",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                int prog[] = new int[9];
+                for (int i = 0; i < 9; i++)
+                    prog[i] = levelDbHelper.getprogress(one.datavase, i + 1);
+
+                Call<Void> call1 = gda.setUserDetails("Token " + token, prog[0], prog[1], prog[2], prog[3], prog[4], prog[5], prog[6], prog[7], prog[8]);
+                call1.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.code() == 200) {
+
+                            Toast.makeText(settings.this, "Sync Successful!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                        Log.d("failed poke: ", t.getMessage());
+                        Toast.makeText(settings.this, "Failed Please try again!!!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                int sbb[] = new int[27];
+                for(int i=0;i<27;i++)
+                    sbb[i]=levelDbHelper.getbool(i+1,one.datavase);
+
+                Call<Void> call2 = gda.setbool("Token " + token, sbb[0], sbb[1], sbb[2], sbb[3], sbb[4], sbb[5], sbb[6], sbb[7], sbb[8],
+                        sbb[9],sbb[10],sbb[11],sbb[12],sbb[13],sbb[14],sbb[15],sbb[16],sbb[17],sbb[18],sbb[19],sbb[20],sbb[21],sbb[22],sbb[23],sbb[24], sbb[25],sbb[26]);
+                call2.enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (!response.isSuccessful()) {
+
+                            Log.d("Code poker: " + response.code(), token);
+                            Toast.makeText(settings.this, "Failed Please try again!!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else if (response.code() == 200) {
+
+                            Toast.makeText(settings.this, "Sync Successful!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+
+                        Log.d("failed poke: ", t.getMessage());
+                        Toast.makeText(settings.this, "Failed Please try again!!!!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        });
+        //Toast.makeText(settings.this,token, Toast.LENGTH_SHORT).show();
+        logout=(TextView)findViewById(R.id.signout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                final getdataApi gda = retrofit.create(getdataApi.class);
+                Call<Void> call1 = gda.logout("Token " + token);
+                call1.enqueue(new Callback<Void>() {
+
+                    @Override
+                    public void onResponse(Call<Void> call ,Response<Void> response) {
+
+                        //one.token = null;
+                        //tt=new login();
+                        if (response.code() == 200) {
+                            editor.putInt("successfullogin", 0);
+                            levelDbHelper.updatecurrlev(one.datavase,1);
+                            editor.putString("token", "");
+                            editor.remove("id_avatar");
+                            editor.remove("totalstars");
+                            editor.remove("token");
+                            editor.remove("fname");
+                            editor.remove("lname");
+                            editor.remove("phoneno");
+                            editor.commit();
+                            for (int i = 0; i < 27; i++)
+                                levelDbHelper.updatebool(i, one.datavase, 0);
+                            for (int i = 0; i < 9; i++)
+                                levelDbHelper.changeprogress(i + 1, one.datavase, 0);
+                            Toast.makeText(settings.this, "Logged out " + token, Toast.LENGTH_SHORT).show();
+                            Intent ii = new Intent(settings.this, MainActivity.class);
+                            startActivity(ii);
+                            finish();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.d("failed bool ", t.getMessage());
+                    }
+                });
+
+            }
+        });
+
+        changepass=(TextView)findViewById(R.id.changepass);
+        changepass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(settings.this,ChangePassword.class);
+                startActivity(i);
+                finish();
             }
         });
     }

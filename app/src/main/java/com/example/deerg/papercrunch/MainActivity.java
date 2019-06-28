@@ -17,28 +17,22 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase datavase;
     LevelDbHelper levelDbHelper;
     DataDbHelper dataDbHelper;
-    public static int totalstars;
-    public static String token;
     public static int avid;
-    public static String fname;
-    public static String lname;
-    public static int pno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
-        avid = sp.getInt("id_avatar", 0);
-
+        final SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+        sp.getInt("id_avatar",0);
         levelDbHelper=new LevelDbHelper(this);
-        //levelDbHelper.onUpgrade(datavase, 1, 1);
         levelDbHelper.checktable(datavase);
 
         dataDbHelper=new DataDbHelper(this);
         dataDbHelper.checktable(datavase);
         pg=(ProgressBar)findViewById(R.id.progressBar);
         final Intent i = new Intent(this,login.class);
+        final Intent ii = new Intent(this,Main2Activity.class);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -56,12 +50,20 @@ public class MainActivity extends AppCompatActivity {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        startActivity(i);
+                        if(sp.getInt("successfullogin",0)==0)
+                            startActivity(i);
+                        else
+                            startActivity(ii);
                     }
                 });
                 finish();
             }
         }).start();
+
+
     }
 
 }
+
+
+

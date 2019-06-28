@@ -9,18 +9,10 @@ public class Post {
     private int currentLevel;
     private int totalStars;
     private int ID;
-    private List<Integer> levelprogress;
-    private String fname;
-    private String lname;
-    private int pno;
+    private String first_name;
+    private String last_name;
+    private String phone_number;
 
-    public int getPno() {
-        return pno;
-    }
-
-    public Post(){
-
-    }
 
     public String getToken() {
         return token;
@@ -38,15 +30,15 @@ public class Post {
         return ID;
     }
 
-    public List<Integer> getLevelprogress() {
-        return levelprogress;
-    }
-
     public String getFname() {
-        return fname;
+        return first_name;
     }
 
     public String getLname() {
-        return lname;
+        return last_name;
+    }
+
+    public String getPno() {
+        return phone_number;
     }
 }

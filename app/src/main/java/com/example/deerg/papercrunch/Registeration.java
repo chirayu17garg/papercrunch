@@ -120,4 +120,6 @@ public class Registeration extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+
 }
