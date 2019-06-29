@@ -273,18 +273,26 @@ public class QuestionScreen extends AppCompatActivity {
     }
     @Override
     public void onBackPressed(){
-        if(levid==9){
-            levid--;
-        }
-        Intent intent = new Intent(getApplicationContext(),SubLevel.class);
-        intent.putExtra("Level1",card1.get(levid).getlevelnum());
-        intent.putExtra("Levelname",card1.get(levid).getlevelname());
-        intent.putExtra("img",card1.get(levid).getimg());
-        intent.putExtra("prog",card1.get(levid).geprog());
-        intent.putExtra("id",levid);
-        startActivity(intent);
-        finish();
+        if(levid==9) {
 
+            Intent intent1 = new Intent(QuestionScreen.this, SubLevel.class);
+            intent1.putExtra("Level1","Level 9");
+            intent1.putExtra("Levelname","Arrays and Strings");
+            intent1.putExtra("img",R.drawable.ic_view_array_black_24dp);
+            intent1.putExtra("prog",levelDbHelper.getprogress(one.datavase,9));
+            intent1.putExtra("id",levid);
+            startActivity(intent1);
+
+            finish();
+        }
+        if(levid<9){
+            Intent intent1 = new Intent(QuestionScreen.this, SubLevel.class);
+            intent1.putExtra("Level1",two.card1.get(levid).getlevelnum());
+            intent1.putExtra("Levelname",two.card1.get(levid).getlevelname());
+            intent1.putExtra("img",two.card1.get(levid).getimg());
+            intent1.putExtra("prog",two.card1.get(levid).geprog());
+            intent1.putExtra("id",levid);
+            startActivity(intent1);}
     }
 }
 

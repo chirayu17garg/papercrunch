@@ -85,8 +85,8 @@ public class IdScreen extends AppCompatActivity {
         listchild = new HashMap<String, List<String>>();
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
-        listheader.add("View Next Level");
         listheader.add("View Progress Cycle");
+        listheader.add("");
         listheader.add("");
         listheader.add("");
         listheader.add("Settings");

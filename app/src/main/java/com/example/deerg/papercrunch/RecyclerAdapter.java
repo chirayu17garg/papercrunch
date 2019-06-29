@@ -20,7 +20,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.LevelV
     LevelDbHelper levelDbHelper;
 
     private Context mContext;
-    private List<CardData> cardDataList;
+    public static List<CardData> cardDataList;
     RecyclerAdapter(Context context,List<CardData> cardDataList){
         this.mContext =context;
         this.cardDataList = cardDataList;

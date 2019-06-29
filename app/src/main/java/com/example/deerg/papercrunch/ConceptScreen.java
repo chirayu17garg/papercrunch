@@ -94,8 +94,8 @@ public class ConceptScreen extends AppCompatActivity {
         listchild = new HashMap<String, List<String>>();
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
-        listheader.add("View Next Level");
         listheader.add("View Progress Cycle");
+        listheader.add("");
         listheader.add("");
         listheader.add("");
         listheader.add("Settings");
@@ -147,6 +147,19 @@ public class ConceptScreen extends AppCompatActivity {
                 }
                 else if(groupPosition==1)
                 {
+                    if(levid==9) {
+
+                        Intent intent1 = new Intent(mContext, SubLevel.class);
+                        intent1.putExtra("Level1","Level 9");
+                        intent1.putExtra("Levelname","Arrays and Strings");
+                        intent1.putExtra("img",R.drawable.ic_view_array_black_24dp);
+                        intent1.putExtra("prog",levelDbHelper.getprogress(one.datavase,9));
+                        intent1.putExtra("id",levid);
+                        startActivity(intent1);
+
+                        finish();
+                    }
+                    if(levid<9){
                     Intent intent = new Intent(mContext,SubLevel.class);
                     intent.putExtra("Level1",two.card1.get(childPosition).getlevelnum());
                     intent.putExtra("Levelname",two.card1.get(childPosition).getlevelname());
@@ -154,7 +167,7 @@ public class ConceptScreen extends AppCompatActivity {
                     intent.putExtra("prog",two.card1.get(childPosition).geprog());
                     intent.putExtra("id",childPosition+1);
                     two.recreate();
-                    mContext.startActivity(intent);
+                    mContext.startActivity(intent);}
 
                 }
                 finish();
@@ -349,6 +362,19 @@ public class ConceptScreen extends AppCompatActivity {
 
                     }
                     levelDbHelper.updatebool(subid,one.datavase,1);
+                    if(levid==9) {
+
+                        Intent intent1 = new Intent(ConceptScreen.this, SubLevel.class);
+                        intent1.putExtra("Level1","Level 9");
+                        intent1.putExtra("Levelname","Arrays and Strings");
+                        intent1.putExtra("img",R.drawable.ic_view_array_black_24dp);
+                        intent1.putExtra("prog",levelDbHelper.getprogress(one.datavase,9));
+                        intent1.putExtra("id",levid);
+                        startActivity(intent1);
+
+                        finish();
+                    }
+                    if(levid<9){
                     Intent intent1 = new Intent(ConceptScreen.this, SubLevel.class);
                     intent1.putExtra("Level1",two.card1.get(levid).getlevelnum());
                     intent1.putExtra("Levelname",two.card1.get(levid).getlevelname());
@@ -357,7 +383,7 @@ public class ConceptScreen extends AppCompatActivity {
                     intent1.putExtra("id",levid);
                     startActivity(intent1);
 
-                    finish();
+                    finish();}
                 }
             }
         });
@@ -372,14 +398,26 @@ public class ConceptScreen extends AppCompatActivity {
     }
     @Override
     public void onBackPressed(){
+        if(levid==9) {
 
+            Intent intent1 = new Intent(ConceptScreen.this, SubLevel.class);
+            intent1.putExtra("Level1","Level 9");
+            intent1.putExtra("Levelname","Arrays and Strings");
+            intent1.putExtra("img",R.drawable.ic_view_array_black_24dp);
+            intent1.putExtra("prog",levelDbHelper.getprogress(one.datavase,9));
+            intent1.putExtra("id",levid);
+            startActivity(intent1);
+
+            finish();
+        }
+        if(levid<9){
         Intent intent1 = new Intent(ConceptScreen.this, SubLevel.class);
         intent1.putExtra("Level1",two.card1.get(levid).getlevelnum());
         intent1.putExtra("Levelname",two.card1.get(levid).getlevelname());
         intent1.putExtra("img",two.card1.get(levid).getimg());
         intent1.putExtra("prog",two.card1.get(levid).geprog());
         intent1.putExtra("id",levid);
-        startActivity(intent1);
+        startActivity(intent1);}
 
 
     }

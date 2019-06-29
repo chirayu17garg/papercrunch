@@ -56,7 +56,6 @@ public class SubLevel extends AppCompatActivity {
     public static int SizeOfLevel;
     public static int progress;
     int x;
-    int sid;
     Context mContext;
     com.example.deerg.papercrunch.LevelDbHelper levelDbHelper;
     int idiot;
@@ -69,9 +68,16 @@ public class SubLevel extends AppCompatActivity {
         mContext=this;
         setuptoolbar();
 
-/*LevelDbHelper levelDbHelper2=new LevelDbHelper(this);
-        sid=levelDbHelper2.getcurrlev(one.datavase);
-progress=levelDbHelper2.getprogress(one.datavase,x);
+        Intent intet = getIntent();
+        id = intet.getExtras().getInt("id");
+        levid = id-1;
+        idiot = id;
+        one=new MainActivity();
+        two=new Main2Activity();
+        levelDbHelper = new LevelDbHelper(this);
+
+
+        progress = 0;
         for(x=1;x<=9;x++)
         {
             progress += levelDbHelper.getprogress(one.datavase,x);
@@ -82,18 +88,14 @@ progress=levelDbHelper2.getprogress(one.datavase,x);
             boolean firstStart=prefs.getBoolean("firstStart",true);
             if(firstStart)
             {
-Intent intent40=new Intent(this,PopupActivityK.class);
-startActivity(intent40);
+                Intent intent40=new Intent(this,PopupActivityK.class);
+                startActivity(intent40);
             }
         }
-*/
-        Intent intet = getIntent();
-        id = intet.getExtras().getInt("id");
-        levid = id-1;
-        idiot = id;
-        one=new MainActivity();
-        two=new Main2Activity();
-        levelDbHelper = new LevelDbHelper(this);
+
+
+
+
 
         //lev = new ArrayList();
         ListView list = (ListView)findViewById(R.id.sublist);
@@ -124,8 +126,8 @@ startActivity(intent40);
         listchild = new HashMap<String, List<String>>();
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
-        listheader.add("View Next Level");
         listheader.add("View Progress Cycle");
+        listheader.add("");
         listheader.add("");
         listheader.add("");
         listheader.add("Settings");

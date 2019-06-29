@@ -1,5 +1,7 @@
 package com.example.deerg.papercrunch;
 
+import android.text.Editable;
+
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -87,9 +89,9 @@ public interface getdataApi {
     );
 
     @FormUrlEncoded
-    @POST("api/playground")
+    @POST("api/playground/")
     Call<Code> sendcode(@Header("Authorization") String Header,
-                        @Field("code") String code
+                        @Field("code") Editable code
                         );
 
 }

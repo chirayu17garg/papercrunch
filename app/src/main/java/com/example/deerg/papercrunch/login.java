@@ -101,9 +101,10 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//http://192.168.43.29:8000/
+                //https://papercrunch-1.herokuapp.com/
                 final Retrofit retrofit=new Retrofit.Builder()
-                        .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
                         .build();
                 final getdataApi gda=retrofit.create(getdataApi.class);
 
@@ -129,7 +130,7 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
                         editor.putString("token",posts.getToken());
                         editor.putString("fname",posts.getFname());
                         editor.putString("lname",posts.getLname());
-                        editor.putString("phoneno",posts.getPno());
+                        //editor.putString("phoneno",posts.getPno());
                         editor.putInt("successfullogin",1);
                         editor.commit();
 
@@ -223,6 +224,7 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
                     @Override
                     public void onFailure(Call<Post> call, Throwable t) {
                         Log.d("failed: ", t.getMessage());
+                       Toast.makeText(login.this,"Please check your credentials and make sure you are connected to the internet",Toast.LENGTH_SHORT).show();
                     }
                 });
 

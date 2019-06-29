@@ -1,11 +1,15 @@
 package com.example.deerg.papercrunch;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -27,6 +31,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class Main2Activity extends AppCompatActivity {
 
@@ -83,8 +89,8 @@ public class Main2Activity extends AppCompatActivity {
         listchild = new HashMap<String, List<String>>();
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
-        listheader.add("View Next Level");
         listheader.add("View Progress Cycle");
+        listheader.add("");
         listheader.add("");
         listheader.add("Code Playground");
         listheader.add("Settings");
@@ -116,6 +122,8 @@ public class Main2Activity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(mActionBarDrawerToggle);
         mActionBarDrawerToggle.syncState();
         navigationView.setItemIconTintList(null);
+
+
 
 
 
@@ -173,7 +181,7 @@ public class Main2Activity extends AppCompatActivity {
                 else if(groupPosition==8)
                 {
                     final Retrofit retrofit=new Retrofit.Builder()
-                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda=retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(Main2Activity.this);
@@ -296,6 +304,23 @@ public class Main2Activity extends AppCompatActivity {
         setSupportActionBar(custom_toolbar);
 
     }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            //You can replace it with your name
+            return !ipAddr.equals("");
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
 }
 

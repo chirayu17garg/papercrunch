@@ -77,8 +77,10 @@ public class Ans_Popup extends AppCompatActivity {
             tv2.setVisibility(View.INVISIBLE);
             //stored stars
 
-            int qid=dh.getQid(ConceptScreen.subid,QuetionFragmentAdapter.index,db);
-            dh.updateStars(qid,tries,db);
+            if(levelDbHelper.getbool(subid,one.datavase)==1||levelDbHelper.getbool(subid,one.datavase)==0) {
+                int qid = dh.getQid(ConceptScreen.subid, QuetionFragmentAdapter.index, db);
+                dh.updateStars(qid, tries, db);
+            }
 
             if(tries==0)
             {
@@ -123,7 +125,23 @@ public class Ans_Popup extends AppCompatActivity {
 
                         }
                         levelDbHelper.updatebool(subid,one.datavase,2);
+                        if(levid==9) {
+                            Intent inten = new Intent(getApplicationContext(), Main2Activity.class);
+                            startActivity(inten);
+                        }
+                        if(levid==9) {
 
+                            Intent intent1 = new Intent(Ans_Popup.this, SubLevel.class);
+                            intent1.putExtra("Level1","Level 9");
+                            intent1.putExtra("Levelname","Arrays and Strings");
+                            intent1.putExtra("img",R.drawable.ic_view_array_black_24dp);
+                            intent1.putExtra("prog",levelDbHelper.getprogress(one.datavase,9));
+                            intent1.putExtra("id",levid);
+                            startActivity(intent1);
+
+                            finish();
+                        }
+                        if(levid<9){
                         Intent intent = new Intent(getApplicationContext(),SubLevel.class);
                         intent.putExtra("Level1",card1.get(levid).getlevelnum());
                         intent.putExtra("Levelname",card1.get(levid).getlevelname());
@@ -131,7 +149,7 @@ public class Ans_Popup extends AppCompatActivity {
                         intent.putExtra("prog",card1.get(levid).geprog());
                         intent.putExtra("id",levid);
                         startActivity(intent);
-                        finish();
+                        finish();}
                     }
                     else
                     {
