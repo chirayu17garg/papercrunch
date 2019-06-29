@@ -56,7 +56,8 @@ public class ChangePassword extends AppCompatActivity {
                         JSONObject jsonObject= jsonArray.getJSONObject(0);
                         String code=jsonObject.getString("code");
                         String message=jsonObject.getString("message");
-                        if(jsonObject.getString("non_field_errors").equals("true"))
+                        String non_field_errors=jsonObject.getString("non_field_errors");
+                        if(non_field_errors.equals("true"))
                         {
                             builder.setTitle("Something Went Wrong...");
                             builder.setMessage("The password you entered is wrong");

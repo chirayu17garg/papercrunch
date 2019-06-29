@@ -1,8 +1,10 @@
 package com.example.deerg.papercrunch;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.ViewPager;
@@ -10,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +24,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.deerg.papercrunch.ConceptScreen.levid;
 import static com.example.deerg.papercrunch.Main2Activity.card1;
@@ -58,7 +67,7 @@ public class QuestionScreen extends AppCompatActivity {
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
         listheader.add("View Next Level");
-        listheader.add("");
+        listheader.add("View Progress Cycle");
         listheader.add("");
         listheader.add("");
         listheader.add("Settings");
@@ -132,6 +141,90 @@ public class QuestionScreen extends AppCompatActivity {
                     Intent i=new Intent(mContext,settings.class);
                     startActivity(i);
                 }
+
+                else if(groupPosition==8)
+                {
+                    final Retrofit retrofit=new Retrofit.Builder()
+                            .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    final getdataApi gda=retrofit.create(getdataApi.class);
+                    DataDbHelper dataDbHelper = new DataDbHelper(QuestionScreen.this);
+
+                    SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    final String token=sp.getString("token","");
+                    //Toast.makeText(Main2Activity.this,token,Toast.LENGTH_SHORT).show();
+                    Call<Void> call=gda.sync(levelDbHelper.getcurrlev(one.datavase),dataDbHelper.getStars(one.datavase),sp.getInt("id_avatar", 0),"Token "+token);
+
+                    call.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (!response.isSuccessful()) {
+                                Log.d("Code: " + response.code(), "lol");
+                                //Toast.makeText(Main2Activity.this, "Failed Please try again!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                        }
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Log.d("failed: ", t.getMessage());
+                            //Toast.makeText(Main2Activity.this,"Failed Please try again",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    int prog[] = new int[9];
+                    for (int i = 0; i < 9; i++)
+                        prog[i] = levelDbHelper.getprogress(one.datavase, i + 1);
+
+                    Call<Void> call1 = gda.setUserDetails("Token " + token, prog[0], prog[1], prog[2], prog[3], prog[4], prog[5], prog[6], prog[7], prog[8]);
+                    call1.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.code() == 200) {
+
+                                //Toast.makeText(Main2Activity.this, "Sync Successful!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                            Log.d("failed poke: ", t.getMessage());
+                            //Toast.makeText(Main2Activity.this, "Failed Please try again!!!!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    int sbb[] = new int[27];
+                    for(int i=0;i<27;i++)
+                        sbb[i]=levelDbHelper.getbool(i+1,one.datavase);
+
+                    Call<Void> call2 = gda.setbool("Token " + token, sbb[0], sbb[1], sbb[2], sbb[3], sbb[4], sbb[5], sbb[6], sbb[7], sbb[8],
+                            sbb[9],sbb[10],sbb[11],sbb[12],sbb[13],sbb[14],sbb[15],sbb[16],sbb[17],sbb[18],sbb[19],sbb[20],sbb[21],sbb[22],sbb[23],sbb[24], sbb[25],sbb[26]);
+                    call2.enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (!response.isSuccessful()) {
+
+                                Log.d("Code poker: " + response.code(), token);
+                                //Toast.makeText(Main2Activity.this, "Failed Please try again!!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            else if (response.code() == 200) {
+
+                                //Toast.makeText(Main2Activity.this, "Sync Successful!!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                            Log.d("failed poke: ", t.getMessage());
+                            //Toast.makeText(Main2Activity.this, "Failed Please try again!!!!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
                 return true;
             }
         });

@@ -84,9 +84,9 @@ public class Main2Activity extends AppCompatActivity {
         listheader.add("View All Sub Levels");
         listheader.add("View Prevoius Level");
         listheader.add("View Next Level");
+        listheader.add("View Progress Cycle");
         listheader.add("");
-        listheader.add("");
-        listheader.add("");
+        listheader.add("Code Playground");
         listheader.add("Settings");
         listheader.add("Rate us");
         listheader.add("Save Your Progress");
@@ -158,6 +158,12 @@ public class Main2Activity extends AppCompatActivity {
                         mExpandableListView.collapseGroup(groupPosition);
                     mExpandableListView.expandGroup(groupPosition);
                 }
+
+                else if(groupPosition==5)
+                {
+                    Intent i=new Intent(mContext,Playground.class);
+                    startActivity(i);
+                }
                 else if(groupPosition==6)
                 {
                     Intent i=new Intent(mContext,settings.class);
@@ -167,7 +173,7 @@ public class Main2Activity extends AppCompatActivity {
                 else if(groupPosition==8)
                 {
                     final Retrofit retrofit=new Retrofit.Builder()
-                            .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda=retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(Main2Activity.this);

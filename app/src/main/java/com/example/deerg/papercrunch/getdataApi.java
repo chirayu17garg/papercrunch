@@ -86,5 +86,11 @@ public interface getdataApi {
 
     );
 
+    @FormUrlEncoded
+    @POST("api/playground")
+    Call<Code> sendcode(@Header("Authorization") String Header,
+                        @Field("code") String code
+                        );
+
 }
 
