@@ -157,6 +157,7 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
                                 prog[8]=userd.getLevelNine();
                                 for(int i=0;i<9;i++)
                                     levelDbHelper.changeprogress(i+1,one.datavase,prog[i]);
+
                                 Toast.makeText(login.this,"hi",Toast.LENGTH_SHORT).show();
 
 
@@ -200,9 +201,23 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
 
                                         for(int i=0;i<27;i++)
                                             levelDbHelper.updatebool(i+1,one.datavase,sbool[i]);
-                                        Toast.makeText(login.this,"hi",Toast.LENGTH_SHORT).show();
-                                        startActivity(ii);
-                                        finish();
+                                        Toast.makeText(login.this,"Welcome",Toast.LENGTH_SHORT).show();
+                                        int check=0;
+                                        for(int i=0;i<9;i++){
+                                            int prog = levelDbHelper.getprogress(one.datavase,i);
+                                            if(prog !=0){
+                                                check++;
+                                            }
+                                        }
+                                        if(check!=0){
+                                            startActivity(ii);
+                                            finish();}
+                                        else{
+                                            Intent blah = new Intent(login.this,CodedBefore.class);
+                                            startActivity(blah);
+                                            finish();
+                                        }
+
                                     }
 
                                     @Override
@@ -301,6 +316,5 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-    /*public void ForgotPass(View view){
-    }*/
+
 }

@@ -256,7 +256,8 @@ public class Main2Activity extends AppCompatActivity {
                         public void onFailure(Call<Void> call, Throwable t) {
 
                             Log.d("failed poke: ", t.getMessage());
-                            Toast.makeText(Main2Activity.this, "Failed Please try again!!!!", Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(Main2Activity.this, "Failed Please try again!!!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Main2Activity.this,"Please make sure you are connected to the internet",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -308,7 +309,9 @@ public class Main2Activity extends AppCompatActivity {
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return cm.getActiveNetworkInfo() != null;
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        return cm.getActiveNetworkInfo() != null && networkInfo.isConnected();
     }
     public boolean isInternetAvailable() {
         try {

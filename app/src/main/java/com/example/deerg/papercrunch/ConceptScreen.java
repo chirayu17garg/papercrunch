@@ -258,7 +258,7 @@ public class ConceptScreen extends AppCompatActivity {
                             }
                             else if (response.code() == 200) {
 
-                                //Toast.makeText(Main2Activity.this, "Sync Successful!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ConceptScreen.this, "Sync Successful!!", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -267,6 +267,7 @@ public class ConceptScreen extends AppCompatActivity {
 
                             Log.d("failed poke: ", t.getMessage());
                             //Toast.makeText(Main2Activity.this, "Failed Please try again!!!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ConceptScreen.this,"Please make sure you are connected to the internet",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

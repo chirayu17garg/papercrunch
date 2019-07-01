@@ -230,6 +230,7 @@ public class SubLevel extends AppCompatActivity {
                         public void onFailure(Call<Void> call, Throwable t) {
                             Log.d("failed: ", t.getMessage());
                             //Toast.makeText(Main2Activity.this,"Failed Please try again",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SubLevel.this,"Please make sure you are connected to the internet",Toast.LENGTH_SHORT).show();
                         }
                     });
 

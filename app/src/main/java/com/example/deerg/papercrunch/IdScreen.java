@@ -240,7 +240,7 @@ public class IdScreen extends AppCompatActivity {
                             }
                             else if (response.code() == 200) {
 
-                                //Toast.makeText(Main2Activity.this, "Sync Successful!!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(IdScreen.this, "Sync Successful!!", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -249,6 +249,7 @@ public class IdScreen extends AppCompatActivity {
 
                             Log.d("failed poke: ", t.getMessage());
                             //Toast.makeText(Main2Activity.this, "Failed Please try again!!!!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(IdScreen.this,"Please make sure you are connected to the internet",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -307,4 +308,9 @@ public class IdScreen extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent omg = new Intent(IdScreen.this,Main2Activity.class);
+        startActivity(omg);
+    }
 }
