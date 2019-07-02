@@ -151,7 +151,7 @@ public class ConceptScreen extends AppCompatActivity {
                     intent.putExtra("con3",c3.get(childPosition));
                     intent.putExtra("subname",lev.get(childPosition));
                     intent.putExtra("levelid",id);
-                    intent.putExtra("lul",lvln);
+                    intent.putExtra("levelname",lvln);
                     startActivity(intent);
                 }
                 else if(groupPosition==1)
@@ -200,7 +200,7 @@ public class ConceptScreen extends AppCompatActivity {
                 else if(groupPosition==8)
                 {
                     final Retrofit retrofit=new Retrofit.Builder()
-                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda=retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(ConceptScreen.this);

@@ -156,7 +156,7 @@ public class settings extends AppCompatActivity {
 
                     } else {
                     final Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda = retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(settings.this);
@@ -272,7 +272,7 @@ public class settings extends AppCompatActivity {
                 Toast.makeText(settings.this, "Reset Successful", Toast.LENGTH_SHORT).show();
 
                 final Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                         .build();
                 final getdataApi gda = retrofit.create(getdataApi.class);
 
@@ -375,7 +375,7 @@ public class settings extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     final Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda = retrofit.create(getdataApi.class);
                     Call<Void> call1 = gda.logout("Token " + token);

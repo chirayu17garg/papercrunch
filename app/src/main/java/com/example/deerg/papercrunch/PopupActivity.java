@@ -15,6 +15,8 @@ public class PopupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
 
+        Ans_Popup.tries++;
+
         DisplayMetrics dm=new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 

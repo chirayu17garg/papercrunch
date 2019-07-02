@@ -32,7 +32,7 @@ public class Registeration extends AppCompatActivity {
     EditText FirstName,Email,Password,LastName,Mobile;
     String first_name,email,password,last_name,phone_number;
     AlertDialog.Builder builder;
-    String reg_url="https://papercrunch-1.herokuapp.com/api/register/";
+    String reg_url="https://papercrunchapp.herokuapp.com/api/register/";
     // public boolean google=false;
     CheckBox chk;
 

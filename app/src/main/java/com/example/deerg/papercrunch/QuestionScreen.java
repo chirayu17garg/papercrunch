@@ -117,6 +117,7 @@ public class QuestionScreen extends AppCompatActivity {
                     intent.putExtra("con3",c3.get(childPosition));
                     intent.putExtra("subname",three.lev.get(childPosition));
                     intent.putExtra("levelid",three.id);
+                    intent.putExtra("levelname",three.levelnam);
                     startActivity(intent);
                 }
                 else if(groupPosition==1)
@@ -168,7 +169,7 @@ public class QuestionScreen extends AppCompatActivity {
 
                     } else {
                     final Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda = retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(QuestionScreen.this);

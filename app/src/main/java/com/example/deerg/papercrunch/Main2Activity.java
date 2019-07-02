@@ -203,7 +203,7 @@ public class Main2Activity extends AppCompatActivity {
 
                     } else {
                         final Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                                .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                                 .build();
                         final getdataApi gda = retrofit.create(getdataApi.class);
                         DataDbHelper dataDbHelper = new DataDbHelper(Main2Activity.this);

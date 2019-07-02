@@ -59,6 +59,7 @@ public class IdScreen extends AppCompatActivity {
     ImageeAdapter imageeAdapter;
     int pos;
     DataDbHelper dh1=new DataDbHelper(this);
+    SubLevel three;
     SQLiteDatabase db;
     //SQLiteDatabase db2;
   public static int stars1;
@@ -104,6 +105,8 @@ public class IdScreen extends AppCompatActivity {
         c1=levelDbHelper.getconcept1(one.datavase,sid);
         c2=levelDbHelper.getconcept2(one.datavase,sid);
         c3=levelDbHelper.getconcept3(one.datavase,sid);
+        CardData cardDatasub = levelDbHelper.readLevel(sid+1,one.datavase);
+        final String levelnam =  cardDatasub.getlevelname();
 
         lev = levelDbHelper.readSubLevel(one.datavase,sid);
         head2=levelDbHelper.getprev(one.datavase,sid);
@@ -128,7 +131,7 @@ public class IdScreen extends AppCompatActivity {
           //      PopupActivityJ.img2.setImageResource(R.drawable.avatar8);
           //  }
         //});
-
+        three=new SubLevel();
 
 
         mExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -138,13 +141,17 @@ public class IdScreen extends AppCompatActivity {
                 {
                     TextView textView = (TextView) findViewById(R.id.subt);
                     Intent intent;
+                    String con1=c1.get(childPosition);
+                    String con2=c2.get(childPosition);
+                    String con3=c3.get(childPosition);
                     intent = new Intent(IdScreen.this,ConceptScreen.class);
-                    intent.putExtra("con1",c1.get(childPosition));
-                    intent.putExtra("con2",c2.get(childPosition));
-                    intent.putExtra("con3",c3.get(childPosition));
-                    intent.putExtra("subname",lev.get(childPosition));
+                    intent.putExtra("con1",con1);
+                    intent.putExtra("con2",con2);
+                    intent.putExtra("con3",con3);
+                    intent.putExtra("subname",three.lev.get(childPosition));
                     intent.putExtra("levelid",sid);
-                    intent.putExtra("levelname",two.card1.get(childPosition).getlevelname());
+                    intent.putExtra("levelname",levelnam);
+
                     startActivity(intent);
                 }
                 else if(groupPosition==1)
@@ -202,7 +209,7 @@ public class IdScreen extends AppCompatActivity {
 
                     } else {
                         final Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                                .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                                 .build();
                         final getdataApi gda = retrofit.create(getdataApi.class);
                         DataDbHelper dataDbHelper = new DataDbHelper(IdScreen.this);

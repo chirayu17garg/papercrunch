@@ -190,7 +190,7 @@ public class Playground extends AppCompatActivity {
 
                     } else {
                     final Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda = retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(Playground.this);
@@ -287,7 +287,7 @@ public class Playground extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Retrofit retrofit=new Retrofit.Builder()
-                        .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                        .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                         .build();
                 final getdataApi gda=retrofit.create(getdataApi.class);
                 SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);

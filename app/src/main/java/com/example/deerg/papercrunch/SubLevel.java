@@ -55,6 +55,7 @@ public class SubLevel extends AppCompatActivity {
     public static List<String> concept1;
     public static List<String> concept2;
     public static List<String> concept3;
+    public static String levelnam;
     public static int id;
     public static int SizeOfLevel;
     public static int progress;
@@ -105,7 +106,7 @@ public class SubLevel extends AppCompatActivity {
         CardData cardDatasub = levelDbHelper.readLevel(levid+1,one.datavase);
 
 
-        final String levelnam =  cardDatasub.getlevelname();
+        levelnam =  cardDatasub.getlevelname();
         String levelnum = cardDatasub.getlevelnum();
         int imga = cardDatasub.getimg();
         int progr = cardDatasub.geprog();
@@ -225,7 +226,7 @@ public class SubLevel extends AppCompatActivity {
 
                     } else {
                     final Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://papercrunch-1.herokuapp.com").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda = retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(SubLevel.this);

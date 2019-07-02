@@ -118,7 +118,7 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
 
                 } else {
                     final Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunchapp.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda = retrofit.create(getdataApi.class);
 
@@ -218,7 +218,7 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
                                             Toast.makeText(login.this, "Welcome", Toast.LENGTH_SHORT).show();
                                             int check = 0;
                                             for (int i = 0; i < 9; i++) {
-                                                int prog = levelDbHelper.getprogress(one.datavase, i);
+                                                int prog = levelDbHelper.getprogress(one.datavase, i+1);
                                                 if (prog != 0) {
                                                     check++;
                                                 }

@@ -30,7 +30,7 @@ public class Forgot extends AppCompatActivity {
     EditText Email;
     String email,password;
     AlertDialog.Builder builder;
-    String reg_url="https://papercrunch-1.herokuapp.com/api/reset-password/";
+    String reg_url="https://papercrunchapp.herokuapp.com/api/reset-password/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
