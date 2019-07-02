@@ -1,12 +1,18 @@
 package com.example.deerg.papercrunch;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.android.volley.AuthFailureError;
@@ -26,8 +32,9 @@ public class Registeration extends AppCompatActivity {
     EditText FirstName,Email,Password,LastName,Mobile;
     String first_name,email,password,last_name,phone_number;
     AlertDialog.Builder builder;
-    String reg_url="http://192.168.43.29:8000/api/register/";
+    String reg_url="https://papercrunch-1.herokuapp.com/api/register/";
     // public boolean google=false;
+    CheckBox chk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,20 @@ public class Registeration extends AppCompatActivity {
         Password=(EditText)findViewById(R.id.pass_3);
         Mobile=(EditText)findViewById(R.id.mno_3);
         builder=new AlertDialog.Builder(Registeration.this);
+
+        chk=(CheckBox)findViewById(R.id.check_1);
+        chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean b) {
+                if(b){
+                    Password.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+
+                }
+                else {
+                    Password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
     }
     public void Create(View view){
         first_name=FirstName.getText().toString();
@@ -120,6 +141,12 @@ public class Registeration extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        return cm.getActiveNetworkInfo() != null && networkInfo.isConnected();
+    }
 
 }

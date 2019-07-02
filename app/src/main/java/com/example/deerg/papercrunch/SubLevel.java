@@ -3,8 +3,11 @@ package com.example.deerg.papercrunch;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -55,6 +58,7 @@ public class SubLevel extends AppCompatActivity {
     public static int id;
     public static int SizeOfLevel;
     public static int progress;
+    public static int sid;
     int x;
     Context mContext;
     com.example.deerg.papercrunch.LevelDbHelper levelDbHelper;
@@ -75,23 +79,19 @@ public class SubLevel extends AppCompatActivity {
         one=new MainActivity();
         two=new Main2Activity();
         levelDbHelper = new LevelDbHelper(this);
+        sid=levelDbHelper.getcurrlev(one.datavase);
 
 
-        progress = 0;
-        for(x=1;x<=9;x++)
-        {
-            progress += levelDbHelper.getprogress(one.datavase,x);
-        }
-        if(progress%100==0&&progress>=100)
-        {
-            SharedPreferences prefs=getSharedPreferences("prefs",MODE_PRIVATE);
-            boolean firstStart=prefs.getBoolean("firstStart",true);
-            if(firstStart)
-            {
-                Intent intent40=new Intent(this,PopupActivityK.class);
-                startActivity(intent40);
+        progress=levelDbHelper.getprogress(one.datavase,sid);
+        if(progress==100&&sid%2!=0) {
+            SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
+            boolean firstStart = prefs.getBoolean("firstStart", true);
+            if (firstStart) {
+                showStartDialog();
             }
         }
+
+
 
 
 
@@ -129,7 +129,7 @@ public class SubLevel extends AppCompatActivity {
         listheader.add("View Progress Cycle");
         listheader.add("");
         listheader.add("");
-        listheader.add("");
+        listheader.add("Playground");
         listheader.add("Settings");
         listheader.add("Rate us");
         listheader.add("Save your Progress");
@@ -192,29 +192,49 @@ public class SubLevel extends AppCompatActivity {
         mExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                if(groupPosition==0 || groupPosition==1)
-                {
+                if (groupPosition == 0 || groupPosition == 1) {
                     mExpandableListView.expandGroup(groupPosition);
-                }
-                else if(groupPosition==6)
-                {
-                    Intent i=new Intent(mContext,settings.class);
-                    startActivity(i);
-                }
+                }else if(groupPosition==5)
+                {if (!isNetworkConnected()) {
+                    new AlertDialog.Builder(SubLevel.this)
+                            .setMessage("Please check your internet connection")
+                            .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                else if(groupPosition==8)
-                {
-                    final Retrofit retrofit=new Retrofit.Builder()
-                            .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
+                                }
+                            }).show();
+
+                } else {
+                    Intent i=new Intent(mContext,Playground.class);
+                    startActivity(i);}
+                }
+                else if (groupPosition == 6) {
+                    Intent i = new Intent(mContext, settings.class);
+                    startActivity(i);
+                } else if (groupPosition == 8) {
+                    if (!isNetworkConnected()) {
+                        new AlertDialog.Builder(SubLevel.this)
+                                .setMessage("Please check your internet connection")
+                                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                }).show();
+
+                    } else {
+                    final Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://papercrunch-1.herokuapp.com").addConverterFactory(GsonConverterFactory.create())
                             .build();
-                    final getdataApi gda=retrofit.create(getdataApi.class);
+                    final getdataApi gda = retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(SubLevel.this);
 
                     SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
-                    final String token=sp.getString("token","");
+                    final String token = sp.getString("token", "");
                     //Toast.makeText(Main2Activity.this,token,Toast.LENGTH_SHORT).show();
-                    Call<Void> call=gda.sync(levelDbHelper.getcurrlev(one.datavase),dataDbHelper.getStars(one.datavase),sp.getInt("id_avatar", 0),"Token "+token);
+                    Call<Void> call = gda.sync(levelDbHelper.getcurrlev(one.datavase), dataDbHelper.getStars(one.datavase), sp.getInt("id_avatar", 0), "Token " + token);
 
                     call.enqueue(new Callback<Void>() {
                         @Override
@@ -226,11 +246,12 @@ public class SubLevel extends AppCompatActivity {
                             }
 
                         }
+
                         @Override
                         public void onFailure(Call<Void> call, Throwable t) {
                             Log.d("failed: ", t.getMessage());
                             //Toast.makeText(Main2Activity.this,"Failed Please try again",Toast.LENGTH_SHORT).show();
-                            Toast.makeText(SubLevel.this,"Please make sure you are connected to the internet",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SubLevel.this, "Please make sure you are connected to the internet", Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -257,11 +278,11 @@ public class SubLevel extends AppCompatActivity {
                     });
 
                     int sbb[] = new int[27];
-                    for(int i=0;i<27;i++)
-                        sbb[i]=levelDbHelper.getbool(i+1,one.datavase);
+                    for (int i = 0; i < 27; i++)
+                        sbb[i] = levelDbHelper.getbool(i + 1, one.datavase);
 
                     Call<Void> call2 = gda.setbool("Token " + token, sbb[0], sbb[1], sbb[2], sbb[3], sbb[4], sbb[5], sbb[6], sbb[7], sbb[8],
-                            sbb[9],sbb[10],sbb[11],sbb[12],sbb[13],sbb[14],sbb[15],sbb[16],sbb[17],sbb[18],sbb[19],sbb[20],sbb[21],sbb[22],sbb[23],sbb[24], sbb[25],sbb[26]);
+                            sbb[9], sbb[10], sbb[11], sbb[12], sbb[13], sbb[14], sbb[15], sbb[16], sbb[17], sbb[18], sbb[19], sbb[20], sbb[21], sbb[22], sbb[23], sbb[24], sbb[25], sbb[26]);
                     call2.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
@@ -270,8 +291,7 @@ public class SubLevel extends AppCompatActivity {
                                 Log.d("Code poker: " + response.code(), token);
                                 //Toast.makeText(Main2Activity.this, "Failed Please try again!!", Toast.LENGTH_SHORT).show();
                                 return;
-                            }
-                            else if (response.code() == 200) {
+                            } else if (response.code() == 200) {
 
                                 //Toast.makeText(Main2Activity.this, "Sync Successful!!", Toast.LENGTH_SHORT).show();
                             }
@@ -285,7 +305,7 @@ public class SubLevel extends AppCompatActivity {
                         }
                     });
                 }
-
+            }
 
                 return true;
             }
@@ -345,7 +365,27 @@ public class SubLevel extends AppCompatActivity {
         setSupportActionBar(custom_toolbar);
     }
     private void showStartDialog(){
-        new AlertDialog.Builder(this);
+        new AlertDialog.Builder(this).setTitle("Congratulations").setMessage("You have unlocked a new medal , tap your avatar to view!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                } )
+                .create().show();
+        SharedPreferences prefs = getSharedPreferences("prefs",MODE_PRIVATE);
+        SharedPreferences.Editor editor=prefs.edit();
+        editor.putBoolean("firstStart",false);
+        editor.apply();
+
+
 
 }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        return cm.getActiveNetworkInfo() != null && networkInfo.isConnected();
+    }
 }

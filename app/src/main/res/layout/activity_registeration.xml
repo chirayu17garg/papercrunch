@@ -81,13 +81,14 @@
         android:layout_marginTop="450dp"
         android:text="Passwords must be atleast 6 characters" />
 
-    <RadioButton
-        android:id="@+id/radioButton"
+    <CheckBox
+        android:id="@+id/check_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="480dp"
         android:text="Show Password" />
+
 
     <Button
         android:id="@+id/button8"

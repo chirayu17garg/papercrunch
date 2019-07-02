@@ -1,7 +1,9 @@
 package com.example.deerg.papercrunch;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -66,6 +68,7 @@ public class ConceptScreen extends AppCompatActivity {
     public static String subname;
     public static String lvlname;
     public static int sid;
+    public static int progress;
     public static int levid;
     public static int subid=15;
     public static int cnt=0;
@@ -102,6 +105,7 @@ public class ConceptScreen extends AppCompatActivity {
         listheader.add("Rate us");
         listheader.add("Save your Progress");
 
+
         one=new MainActivity();
         two=new Main2Activity();
         levelDbHelper=new LevelDbHelper(this);
@@ -116,6 +120,11 @@ public class ConceptScreen extends AppCompatActivity {
 
         listchild.put(listheader.get(0),lev);
         listchild.put(listheader.get(1),head2);
+
+
+
+
+
 
         mExpandableListView = (ExpandableListView) findViewById(R.id.navmenu);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -191,7 +200,7 @@ public class ConceptScreen extends AppCompatActivity {
                 else if(groupPosition==8)
                 {
                     final Retrofit retrofit=new Retrofit.Builder()
-                            .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
                             .build();
                     final getdataApi gda=retrofit.create(getdataApi.class);
                     DataDbHelper dataDbHelper = new DataDbHelper(ConceptScreen.this);
@@ -438,4 +447,6 @@ public class ConceptScreen extends AppCompatActivity {
         startActivity(i);
         return super.onOptionsItemSelected(item);
     }
+
+
 }

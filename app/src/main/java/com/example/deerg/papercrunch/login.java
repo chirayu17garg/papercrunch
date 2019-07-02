@@ -2,9 +2,12 @@ package com.example.deerg.papercrunch;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -103,149 +106,162 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
             public void onClick(View v) {
 //http://192.168.43.29:8000/
                 //https://papercrunch-1.herokuapp.com/
-                final Retrofit retrofit=new Retrofit.Builder()
-                        .baseUrl("http://192.168.43.29:8000/").addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                final getdataApi gda=retrofit.create(getdataApi.class);
+                if (!isNetworkConnected()) {
+                    new AlertDialog.Builder(login.this)
+                            .setMessage("Please check your internet connection")
+                            .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                Call<Post> call=gda.createPost(username.getText().toString(),password.getText().toString());
-
-                call.enqueue(new Callback<Post>() {
-                    @Override
-                    public void onResponse(Call<Post> call, Response<Post> response) {
-                        if(!response.isSuccessful()){
-                            Log.d("Code: " + response.code(),"lol");
-                            return;
-                        }
-                        Post posts=response.body();
-                        //Toast.makeText(login.this,one.token,Toast.LENGTH_SHORT).show();
-                        Log.d("token ",posts.getToken());
-                        levelDbHelper.updatecurrlev(one.datavase,posts.getCurrentLevel());
-
-                        SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putString("email",username.getText().toString());
-                        editor.putInt("id_avatar", posts.getID());
-                        editor.putInt("totalstars", posts.getTotalstars());
-                        editor.putString("token",posts.getToken());
-                        editor.putString("fname",posts.getFname());
-                        editor.putString("lname",posts.getLname());
-                        //editor.putString("phoneno",posts.getPno());
-                        editor.putInt("successfullogin",1);
-                        editor.commit();
-
-                        SharedPreferences sp1=getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
-                        final String token = sp1.getString("token","");
-                        Call<user> call1 = gda.getUserDetails("Token "+token);
-                        call1.enqueue(new Callback<user>() {
-                            @Override
-                            public void onResponse(Call<user> call, Response<user> response) {
-                                if(!response.isSuccessful()){
-                                    Log.d("Code level: " + response.code(),token);
-                                    return;
                                 }
-                                user userd=response.body();
-                                int prog[] = new int[9];
-                                prog[0]=userd.getLevelOne();
-                                prog[1]=userd.getLevelTwo();
-                                prog[2]=userd.getLevelThree();
-                                prog[3]=userd.getLevelFour();
-                                prog[4]=userd.getLevelFive();
-                                prog[5]=userd.getLevelSix();
-                                prog[6]=userd.getLevelSeven();
-                                prog[7]=userd.getLevelEight();
-                                prog[8]=userd.getLevelNine();
-                                for(int i=0;i<9;i++)
-                                    levelDbHelper.changeprogress(i+1,one.datavase,prog[i]);
+                            }).show();
 
-                                Toast.makeText(login.this,"hi",Toast.LENGTH_SHORT).show();
+                } else {
+                    final Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("https://papercrunch-1.herokuapp.com/").addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    final getdataApi gda = retrofit.create(getdataApi.class);
+
+                    Call<Post> call = gda.createPost(username.getText().toString(), password.getText().toString());
+
+                    call.enqueue(new Callback<Post>() {
+                        @Override
+                        public void onResponse(Call<Post> call, Response<Post> response) {
+                            if (!response.isSuccessful()) {
+                                Log.d("Code: " + response.code(), "lol");
+                                return;
+                            }
+                            Post posts = response.body();
+                            //Toast.makeText(login.this,one.token,Toast.LENGTH_SHORT).show();
+                            Log.d("token ", posts.getToken());
+                            levelDbHelper.updatecurrlev(one.datavase, posts.getCurrentLevel());
+
+                            SharedPreferences sp = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("email", username.getText().toString());
+                            editor.putInt("id_avatar", posts.getID());
+                            editor.putInt("totalstars", posts.getTotalstars());
+                            editor.putString("token", posts.getToken());
+                            editor.putString("fname", posts.getFname());
+                            editor.putString("lname", posts.getLname());
+                            //editor.putString("phoneno",posts.getPno());
+                            editor.putInt("successfullogin", 1);
+                            editor.commit();
+
+                            SharedPreferences sp1 = getSharedPreferences("your_prefs", Activity.MODE_PRIVATE);
+                            final String token = sp1.getString("token", "");
+                            Call<user> call1 = gda.getUserDetails("Token " + token);
+                            call1.enqueue(new Callback<user>() {
+                                @Override
+                                public void onResponse(Call<user> call, Response<user> response) {
+                                    if (!response.isSuccessful()) {
+                                        Log.d("Code level: " + response.code(), token);
+                                        return;
+                                    }
+                                    user userd = response.body();
+                                    int prog[] = new int[9];
+                                    prog[0] = userd.getLevelOne();
+                                    prog[1] = userd.getLevelTwo();
+                                    prog[2] = userd.getLevelThree();
+                                    prog[3] = userd.getLevelFour();
+                                    prog[4] = userd.getLevelFive();
+                                    prog[5] = userd.getLevelSix();
+                                    prog[6] = userd.getLevelSeven();
+                                    prog[7] = userd.getLevelEight();
+                                    prog[8] = userd.getLevelNine();
+                                    for (int i = 0; i < 9; i++)
+                                        levelDbHelper.changeprogress(i + 1, one.datavase, prog[i]);
+
+                                    Toast.makeText(login.this, "hi", Toast.LENGTH_SHORT).show();
 
 
-                                Call<subbool> call2 = gda.getbool("Token "+token);
-                                call2.enqueue(new Callback<subbool>() {
-                                    @Override
-                                    public void onResponse(Call<subbool> call, Response<subbool> response) {
-                                        if(!response.isSuccessful()){
-                                            Log.d("Code bool: " + response.code(),token);
-                                            return;
-                                        }
-                                        subbool sb=response.body();
-                                        int sbool[] = new int[27];
-                                        sbool[0]=sb.getSublevel1();
-                                        sbool[1]=sb.getSublevel2();
-                                        sbool[2]=sb.getSublevel3();
-                                        sbool[3]=sb.getSublevel4();
-                                        sbool[4]=sb.getSublevel5();
-                                        sbool[5]=sb.getSublevel6();
-                                        sbool[6]=sb.getSublevel7();
-                                        sbool[7]=sb.getSublevel8();
-                                        sbool[8]=sb.getSublevel9();
-                                        sbool[9]=sb.getSublevel10();
-                                        sbool[10]=sb.getSublevel11();
-                                        sbool[11]=sb.getSublevel12();
-                                        sbool[12]=sb.getSublevel13();
-                                        sbool[13]=sb.getSublevel14();
-                                        sbool[14]=sb.getSublevel5();
-                                        sbool[15]=sb.getSublevel16();
-                                        sbool[16]=sb.getSublevel17();
-                                        sbool[17]=sb.getSublevel18();
-                                        sbool[18]=sb.getSublevel19();
-                                        sbool[19]=sb.getSublevel20();
-                                        sbool[20]=sb.getSublevel21();
-                                        sbool[21]=sb.getSublevel22();
-                                        sbool[22]=sb.getSublevel23();
-                                        sbool[23]=sb.getSublevel24();
-                                        sbool[24]=sb.getSublevel25();
-                                        sbool[25]=sb.getSublevel26();
-                                        sbool[26]=sb.getSublevel27();
-
-                                        for(int i=0;i<27;i++)
-                                            levelDbHelper.updatebool(i+1,one.datavase,sbool[i]);
-                                        Toast.makeText(login.this,"Welcome",Toast.LENGTH_SHORT).show();
-                                        int check=0;
-                                        for(int i=0;i<9;i++){
-                                            int prog = levelDbHelper.getprogress(one.datavase,i);
-                                            if(prog !=0){
-                                                check++;
+                                    Call<subbool> call2 = gda.getbool("Token " + token);
+                                    call2.enqueue(new Callback<subbool>() {
+                                        @Override
+                                        public void onResponse(Call<subbool> call, Response<subbool> response) {
+                                            if (!response.isSuccessful()) {
+                                                Log.d("Code bool: " + response.code(), token);
+                                                return;
                                             }
+                                            subbool sb = response.body();
+                                            int sbool[] = new int[27];
+                                            sbool[0] = sb.getSublevel1();
+                                            sbool[1] = sb.getSublevel2();
+                                            sbool[2] = sb.getSublevel3();
+                                            sbool[3] = sb.getSublevel4();
+                                            sbool[4] = sb.getSublevel5();
+                                            sbool[5] = sb.getSublevel6();
+                                            sbool[6] = sb.getSublevel7();
+                                            sbool[7] = sb.getSublevel8();
+                                            sbool[8] = sb.getSublevel9();
+                                            sbool[9] = sb.getSublevel10();
+                                            sbool[10] = sb.getSublevel11();
+                                            sbool[11] = sb.getSublevel12();
+                                            sbool[12] = sb.getSublevel13();
+                                            sbool[13] = sb.getSublevel14();
+                                            sbool[14] = sb.getSublevel5();
+                                            sbool[15] = sb.getSublevel16();
+                                            sbool[16] = sb.getSublevel17();
+                                            sbool[17] = sb.getSublevel18();
+                                            sbool[18] = sb.getSublevel19();
+                                            sbool[19] = sb.getSublevel20();
+                                            sbool[20] = sb.getSublevel21();
+                                            sbool[21] = sb.getSublevel22();
+                                            sbool[22] = sb.getSublevel23();
+                                            sbool[23] = sb.getSublevel24();
+                                            sbool[24] = sb.getSublevel25();
+                                            sbool[25] = sb.getSublevel26();
+                                            sbool[26] = sb.getSublevel27();
+
+                                            for (int i = 0; i < 27; i++)
+                                                levelDbHelper.updatebool(i + 1, one.datavase, sbool[i]);
+                                            Toast.makeText(login.this, "Welcome", Toast.LENGTH_SHORT).show();
+                                            int check = 0;
+                                            for (int i = 0; i < 9; i++) {
+                                                int prog = levelDbHelper.getprogress(one.datavase, i);
+                                                if (prog != 0) {
+                                                    check++;
+                                                }
+                                            }
+                                            if (check != 0) {
+                                                startActivity(ii);
+                                                finish();
+                                            } else {
+                                                Intent blah = new Intent(login.this, CodedBefore.class);
+                                                startActivity(blah);
+                                                finish();
+                                            }
+
                                         }
-                                        if(check!=0){
-                                            startActivity(ii);
-                                            finish();}
-                                        else{
-                                            Intent blah = new Intent(login.this,CodedBefore.class);
-                                            startActivity(blah);
-                                            finish();
+
+                                        @Override
+                                        public void onFailure(Call<subbool> call, Throwable t) {
+                                            Log.d("failed bool ", t.getMessage());
                                         }
+                                    });
 
-                                    }
+                                    startActivity(ii);
+                                    finish();
+                                }
 
-                                    @Override
-                                    public void onFailure(Call<subbool> call, Throwable t) {
-                                        Log.d("failed bool ", t.getMessage());
-                                    }
-                                });
+                                @Override
+                                public void onFailure(Call<user> call, Throwable t) {
+                                    Log.d("failed level ", t.getMessage());
+                                }
+                            });
+                        }
 
-                                startActivity(ii);
-                                finish();
-                            }
+                        @Override
+                        public void onFailure(Call<Post> call, Throwable t) {
+                            Log.d("failed: ", t.getMessage());
+                            Toast.makeText(login.this, "Please check your credentials and make sure you are connected to the internet", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                            @Override
-                            public void onFailure(Call<user> call, Throwable t) {
-                                Log.d("failed level ", t.getMessage());
-                            }
-                        });
-                    }
-                    @Override
-                    public void onFailure(Call<Post> call, Throwable t) {
-                        Log.d("failed: ", t.getMessage());
-                       Toast.makeText(login.this,"Please check your credentials and make sure you are connected to the internet",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
+                }
             }
         });
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -315,6 +331,13 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+
+        return cm.getActiveNetworkInfo() != null && networkInfo.isConnected();
     }
 
 }
