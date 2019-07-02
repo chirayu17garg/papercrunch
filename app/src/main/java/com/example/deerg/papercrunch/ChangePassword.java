@@ -27,7 +27,7 @@ public class ChangePassword extends AppCompatActivity {
     EditText Password,New_password;
     String password,new_password;
     AlertDialog.Builder builder;
-    String reg_url="https://papercrunch-1.herokuapp.com/api/change-password/";
+    String reg_url="https://papercrunchapp.herokuapp.com/api/change-password/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
