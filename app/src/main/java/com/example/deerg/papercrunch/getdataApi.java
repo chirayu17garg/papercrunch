@@ -23,6 +23,17 @@ public interface getdataApi {
             @Field("password") String password
     );
 
+    @FormUrlEncoded
+    @POST("api/register/")
+    Call<Register> createReg(
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("first_name")String first_name,
+            @Field("last_name")String last_name,
+            @Field("avatarId")int avatarId,
+            @Field("google")boolean google
+    );
+
     @GET("api/user-progress/")
     Call<user> getUserDetails(@Header("Authorization") String Header);
 

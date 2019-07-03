@@ -61,6 +61,7 @@ public class IdScreen extends AppCompatActivity {
     DataDbHelper dh1=new DataDbHelper(this);
     SubLevel three;
     SQLiteDatabase db;
+    TextView stars_1;
     //SQLiteDatabase db2;
   public static int stars1;
   //  int x;
@@ -75,6 +76,8 @@ public class IdScreen extends AppCompatActivity {
         grid_View.setAdapter(new ImageAdapter(this));
         avatar=(ImageButton) findViewById(R.id.avatarr);
         imageeAdapter=new ImageeAdapter(this);
+        stars_1=(TextView)findViewById(R.id.stars_1);
+        stars_1.setText(Integer.toString(stars1));
         one=new MainActivity();
         avatar.setImageResource((imageeAdapter.image_id2[one.avid]));
         Log.d("imge: "+ one.avid,"imge: "+one.avid);

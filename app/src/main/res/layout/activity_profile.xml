@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -38,12 +38,6 @@
             android:text="id"
             android:layout_marginTop="20dp"/>
 
-        <Button
-            android:id="@+id/logoutBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Logout" />
 
         <Button
             android:id="@+id/button7"
@@ -52,17 +46,9 @@
             android:layout_marginTop="20dp"
             android:background="@color/colorPrimary"
 
+            android:onClick="Skip2"
             android:text="Click here to register" />
 
-        <Button
-            android:id="@+id/getstarted"
-            android:layout_width="305dp"
-            android:layout_height="62dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/colorPrimary"
-
-            android:onClick="onClick"
-            android:text="Lets Get Started" />
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>
