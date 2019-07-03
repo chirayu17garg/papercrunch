@@ -129,6 +129,7 @@ public class login extends AppCompatActivity implements View.OnClickListener, Go
                         public void onResponse(Call<Post> call, Response<Post> response) {
                             if (!response.isSuccessful()) {
                                 Log.d("Code: " + response.code(), "lol");
+                                Toast.makeText(login.this, "Please check your credentials", Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             Post posts = response.body();

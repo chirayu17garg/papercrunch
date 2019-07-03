@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="140dp"
         android:ems="10"
         android:hint="@string/email_2"
         android:inputType="textEmailAddress" />
@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="190dp"
+        android:layout_marginTop="210dp"
         android:ems="10"
         android:hint="@string/first_2"
         android:inputType="textPersonName" />
@@ -48,27 +48,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="280dp"
         android:ems="10"
         android:hint="@string/last_2"
         android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/mno_3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="330dp"
-        android:ems="10"
-        android:hint="@string/mobile_1"
-        android:inputType="phone" />
 
     <EditText
         android:id="@+id/pass_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="350dp"
         android:ems="10"
         android:hint="@string/password_1"
         android:inputType="textPassword" />
@@ -78,17 +68,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="450dp"
+        android:layout_marginTop="420dp"
         android:text="Passwords must be atleast 6 characters" />
-
-    <CheckBox
-        android:id="@+id/check_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="480dp"
-        android:text="Show Password" />
-
 
     <Button
         android:id="@+id/button8"
@@ -100,5 +81,12 @@
         android:onClick="@string/create_task"
         android:text="CREATE ACCOUNT" />
 
-</RelativeLayout>
+    <CheckBox
+        android:id="@+id/check_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="480dp"
+        android:text="Show Password" />
 
+</RelativeLayout>

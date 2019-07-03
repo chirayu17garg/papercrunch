@@ -44,7 +44,7 @@ public class Registeration extends AppCompatActivity {
         Email=(EditText)findViewById(R.id.email_3);
         LastName=(EditText)findViewById(R.id.lname_3);
         Password=(EditText)findViewById(R.id.pass_3);
-        Mobile=(EditText)findViewById(R.id.mno_3);
+        //Mobile=(EditText)findViewById(R.id.mno_3);
         builder=new AlertDialog.Builder(Registeration.this);
 
         chk=(CheckBox)findViewById(R.id.check_1);
