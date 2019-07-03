@@ -66,8 +66,8 @@ public class Registeration extends AppCompatActivity {
         last_name=LastName.getText().toString();
         email=Email.getText().toString();
         password=Password.getText().toString();
-        phone_number=Mobile.getText().toString();
-        if(first_name.equals("")||last_name.equals("")||email.equals("")||password.equals("")||phone_number.equals("")){
+       // phone_number=Mobile.getText().toString();
+        if(first_name.equals("")||last_name.equals("")||email.equals("")||password.equals("")){
             builder.setTitle("Something Went Wrong...");
             builder.setMessage("Please Fill All The Fields...");
             displayAlert("input_error");
@@ -108,7 +108,7 @@ public class Registeration extends AppCompatActivity {
                         params.put("password",password);
                         params.put("first_name",first_name);
                         params.put("last_name",last_name);
-                        params.put("phone_number",phone_number);
+                        //params.put("phone_number",phone_number);
                         //params.put("google",google);
                         return params;
                     }
@@ -134,7 +134,7 @@ public class Registeration extends AppCompatActivity {
                     LastName.setText("");
                     Email.setText("");
                     Password.setText("");
-                    Mobile.setText("");
+                    //Mobile.setText("");
                 }
             }
         });
